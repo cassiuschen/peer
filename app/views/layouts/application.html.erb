@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peer</title>
+
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="../../assets/js/html5shiv.js"></script>
+    <script src="../../assets/js/respond.min.js"></script>
+  <![endif]-->
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <ul class="nav nav-pills pull-right">
+        <li <%= raw 'class="active"' if request.path == root_path %>>
+          <%= link_to "All", root_path %>
+        </li>
+        <% if is_admin? %>
+          <li <%= raw 'class="active"' if request.path == manage_posts_path %>>
+            <%= link_to "Manage", manage_posts_path %>
+          </li>
+        <% else %>
+          <li <%= raw 'class="active"' if request.path == my_posts_path %>>
+            <%= link_to "My", my_posts_path %>
+          </li>
+        <% end -%>
+      </ul>
+      <h1 class="brand">
+        <%= link_to "Peer", root_path, class: "text-muted" %>
+      </h1>
+    </div>
+
+    <%= yield %>
+
+    <div class="footer text-center">
+      <a href="http://seiue.com" target="_blank" class="text-muted">&copy; Seiue 2013</a>
+    </div>
+
+  </div>
+
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= yield :script %>
+</body>
+</html>
