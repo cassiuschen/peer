@@ -1,19 +1,23 @@
 <article>
   <h1 class="text-center"><%= @post.title %></h1>
-  <div class="text-right text-muted">
-    <%= @post.author.name %>
+  <div class="text-right">
+    <b><%= @post.author.name %></b>
     <br>
-    <%= kind_time @post.created_at %>
+    <span class="text-muted"><%= kind_time @post.created_at %></span>
   </div>
   <br>
   <div class="body">
     <%= raw @post.body %>
   </div>
+  <br>
+  <% if @post.updated_at != @post.created_at %>
+    <div class="text-muted text-right">最后修改时间：<%= kind_time @post.updated_at %></div>
+  <% end -%>
 </article>
 
-<div id="comments" style="margin-top: 20px;">
+<div id="comments" style="margin-top: 70px;">
   <h3><%= pluralize(@post.comments.count, "reply") %>: </h3>
-  <% @post.comments.each do |comment| %>
+  <% @comments.each do |comment| %>
     <hr class="m0">
     <div class="one-comment" id="comment-<%= comment.level %>" data-level="<%= comment.level %>">
       <% if comment.deleted_at %>

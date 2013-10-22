@@ -1,18 +1,14 @@
 Peer::Application.routes.draw do
   resources :posts, except: :index do
-    collection do
-      get "/", to: "posts#manage", as: :manage
-    end
     member do
       post "comment", to: "posts#comment", as: :comment
       post "score", to: "posts#score", as: :score
     end
   end
-
+  get "/my", to: "posts#my", as: :my_posts
   delete "/comments/:comment_id", to: "posts#destroy_comment", as: :delete_comment
 
-  get "/my", to: "posts#my", as: :my_posts
-  get "/logout", to: "application#logout", as: :logout
+  get "/sign_out", to: "application#logout", as: :logout
   root "posts#index"
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -6,19 +6,16 @@ class PostsController < ApplicationController
     @posts = Post.all.includes(:author, :scores)
   end
 
-  # GET /posts
-  def manage
-    @posts = Post.all
-  end
-
+  # GET /my
   def my
     @posts = current_user.posts
-    render "manage"
+    render "index"
   end
 
   # GET /posts/1
   def show
     @comment = Comment.new
+    @comments = @post.comments
   end
 
   # GET /posts/new
@@ -54,7 +51,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     @post.destroy
-    redirect_to posts_url, notice: 'Post was successfully destroyed.'
+    redirect_to :back, notice: 'Post was successfully destroyed.'
   end
 
   # POST /posts/1/comment
