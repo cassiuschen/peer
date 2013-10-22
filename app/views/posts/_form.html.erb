@@ -11,15 +11,21 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+  <div style="margin-bottom: 10px;">
+    <%= f.text_field :title, class: "form-control input-lg", placeholder: "Title" %>
   </div>
-  <div class="field">
-    <%= f.label :body %><br>
-    <%= f.text_field :body %>
-  </div>
+    
+  <%= f.text_area :body, class: "form-control wysihtml5", rows: 30 %>
+
+  <% content_for :script do %>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.wysihtml5').wysihtml5();
+    })
+  </script>
+  <% end -%>
+
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit class: "btn btn-primary" %>
   </div>
 <% end %>

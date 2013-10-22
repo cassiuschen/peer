@@ -1,4 +1,5 @@
 //= require_self
+//= require bootstrap-wysihtml5/b3
 //= require_directory .
 
 /*!
@@ -61,11 +62,6 @@
 @import "bootstrap/utilities.less";
 @import "bootstrap/responsive-utilities.less";
 
-/* Space out content a bit */
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
@@ -77,6 +73,7 @@ body {
 
 /* Custom page header */
 .header {
+  margin-top: 20px;
   border-bottom: 1px solid #e5e5e5;
   margin-bottom: 40px;
 }
@@ -91,6 +88,22 @@ body {
 
 /* Custom page footer */
 .footer {
+  margin-top: 20px;
   padding-top: 19px;
   border-top: 1px solid #e5e5e5;
+}
+
+.one-comment {
+  position: relative;
+  padding: 10px;
+  .in {
+    display: none;
+  }
+  &:hover .in {
+    display: block;
+  }
+  .transition(background-color .2s linear);
+  &:target {
+    background-color: lighten(@brand-warning, 35%);
+  }
 }

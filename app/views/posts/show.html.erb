@@ -1,14 +1,66 @@
-<p id="notice"><%= notice %></p>
+<article>
+  <h1 class="text-center"><%= @post.title %></h1>
+  <div class="text-right text-muted">
+    <%= @post.author.name %>
+    <br>
+    <%= kind_time @post.created_at %>
+  </div>
+  <br>
+  <div class="body">
+    <%= raw @post.body %>
+  </div>
+</article>
 
-<p>
-  <strong>Title:</strong>
-  <%= @post.title %>
-</p>
+<div id="comments" style="margin-top: 20px;">
+  <h3><%= pluralize(@post.comments.count, "reply") %>: </h3>
+  <% @post.comments.each do |comment| %>
+    <hr class="m0">
+    <div class="one-comment" id="comment-<%= comment.level %>" data-level="<%= comment.level %>">
+      <% if comment.deleted_at %>
+      <div class="text-center text-muted" style="text-decoration: line-through; margin: 5px;">#<%= comment.level %> has been deleted</div>
+      <% else %>
+      <span style="color: #777;"><%= comment.author.name %></span> &nbsp;
+      <span style="color: #BBB;"><%= comment.level %>楼, <%= kind_time comment.created_at %></span>
+      <div class="pull-right in">
+        <a href="###" class="text-muted" data-toggle="comment"><span class="glyphicon glyphicon-comment"></span></a>
+        <% if is_admin? %>
+          &nbsp;
+          <%= link_to delete_comment_path(comment), class: "text-muted", method: :delete do %>
+            <span class="glyphicon glyphicon-trash"></span>
+          <% end -%>
+        <% end -%>
+      </div>
+      <div style="white-space: pre-line; margin: 5px;"><%= raw comment.body %></div>
+      <% end -%>
+    </div>
+  <% end -%>
+  <hr style="margin: 0 0 10px;">
+  <%= form_for @comment, url: comment_post_path(@post) do |f| %>
+    <%= f.submit "Comment", class: "btn btn-default pull-right" %>
+    <div style="margin-right: 95px">
+      <%= f.text_area :body, class: "form-control", id: "comment-input", rows: 1 %>
+    </div>
+  <% end -%>
+</div>
 
-<p>
-  <strong>Body:</strong>
-  <%= @post.body %>
-</p>
-
-<%= link_to 'Edit', edit_post_path(@post) %> |
-<%= link_to 'Back', posts_path %>
+<% content_for :script do %>
+<script>
+  $('textarea').one("focusin", function () {
+    $(this).attr("rows", 3);
+  }).keydown(function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.keyCode == 13) {
+      $(this).closest("form").submit();
+    }
+  })
+  $('[data-toggle="comment"]').click(function () {
+    var $input = $('#comment-input');
+    var val = $input.val();
+    if (val != "") {
+      val += "\n";
+    };
+    val += "#" + $(this).closest('[data-level]').attr('data-level') + '楼 ';
+    $input.focus().val(val);
+    return false;
+  })
+</script>
+<% end -%>

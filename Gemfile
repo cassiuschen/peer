@@ -41,10 +41,11 @@ gem 'kaminari'
 gem 'cancan'
 
 gem 'sanitize'
-# gem 'carrierwave'
+gem 'carrierwave'
 # gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
-gem 'mini_magick'
-gem 'rails_kindeditor'
+# gem 'mini_magick'
+# gem 'rails_kindeditor'
+gem 'bootstrap-wysihtml5-rails'
 
 # Use unicorn as the app server
 # gem 'unicorn'

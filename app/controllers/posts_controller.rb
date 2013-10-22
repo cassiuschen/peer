@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :comment, :score]
 
   # GET /
   def index
-    @posts = Post.all
+    @posts = Post.all.includes(:author, :scores)
   end
 
   # GET /posts
@@ -18,6 +18,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
+    @comment = Comment.new
   end
 
   # GET /posts/new
@@ -32,6 +33,7 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
+    @post.author = current_user
 
     if @post.save
       redirect_to @post, notice: 'Post was successfully created.'
@@ -53,6 +55,36 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     redirect_to posts_url, notice: 'Post was successfully destroyed.'
+  end
+
+  # POST /posts/1/comment
+  def comment
+    comment_params = {
+      body: ERB::Util.html_escape(params[:comment][:body].strip).gsub(/#(\d+)楼/, '<a href="#comment-\1">\0</a> '),
+      author: current_user,
+      post: @post
+    }
+    if Comment.create(comment_params)
+      redirect_to post_path(@post, anchor: "comments")
+    else
+      redirect_to @post, alert: { error: "Comment error!" }
+    end
+  end
+
+  # POST /posts/1/score
+  def score
+    
+  end
+
+  # DELETE /comments/2
+  def destroy_comment
+    @comment = Comment.find(params[:comment_id])
+    @post = @comment.post
+    if @comment.update_attributes(deleted_at: Time.now)
+      redirect_to post_path(@post, anchor: "comments")
+    else
+      redirect_to @post, alert: { error: "Delete error!" }
+    end
   end
 
   private

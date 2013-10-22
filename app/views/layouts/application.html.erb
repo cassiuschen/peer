@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Peer</title>
 
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
   <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
     <script src="../../assets/js/html5shiv.js"></script>
@@ -15,6 +15,9 @@
 </head>
 <body>
   <div class="container">
+    <% if notice %>
+      <p class="alert alert-success"><%= notice %></p>
+    <% end -%>
     <div class="header">
       <ul class="nav nav-pills pull-right">
         <li <%= raw 'class="active"' if request.path == root_path %>>
@@ -29,6 +32,9 @@
             <%= link_to "My", my_posts_path %>
           </li>
         <% end -%>
+        <li>
+          <%= link_to "Sign out", logout_path %>
+        </li>
       </ul>
       <h1 class="brand">
         <%= link_to "Peer", root_path, class: "text-muted" %>

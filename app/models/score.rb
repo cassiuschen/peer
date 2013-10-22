@@ -7,4 +7,8 @@ class Score
 
   belongs_to :user
   belongs_to :post
+
+  before_save do
+    user != post.author
+  end
 end

@@ -13,12 +13,6 @@ class ApplicationController < ActionController::Base
     rescue Mongoid::Errors::DocumentNotFound
       @current_user = User.create!(no: session[:cas_user], last_sign_in_at: session[:previous_redirect_to_cas], last_sign_in_ip: request.remote_ip)
     end
-
-    @current_user.update_attributes!(last_sign_in_at: session[:previous_redirect_to_cas], last_sign_in_ip: request.remote_ip)
-  end
-
-  def user_signed_in?
-    !!@current_user
   end
 
   def current_user
@@ -27,6 +21,11 @@ class ApplicationController < ActionController::Base
 
   def is_admin?
     @current_user.is_admin
+  end
+
+  def logout
+    cookies.delete(:tgt)
+    CASClient::Frameworks::Rails::Filter.logout(self)
   end
 
   # CanCan
@@ -38,8 +37,8 @@ class ApplicationController < ActionController::Base
   #   params[resource] &&= send(method) if respond_to?(method, true)
   # end
 
-  load_and_authorize_resource
-  check_authorization
+  load_and_authorize_resource except: [:logout, :create]
+  check_authorization except: [:logout, :create]
 
   if Rails.env.production?
     rescue_from CanCan::AccessDenied do |exception|
