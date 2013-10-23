@@ -9,11 +9,6 @@
 User.destroy_all
 Post.destroy_all
 
-user1 = User.create!(no: "test")
-user2 = User.create!(no: "test1")
-user3 = User.create!(no: "test2")
-admin = User.create!(no: "admin", is_admin: true)
-
 body = %{
 当我们生病的时候，选择带病上学还是扣分在家休养，本身是一件很正常的事情。生病对于大部分学生来说在所难免。而根据孙老师的论证，我们学校目前的教育体系和目标使每一堂课都会教给学生自己学不到的东西，所以只要缺席就没有很好地完成这一部分的学业，应该扣分。这些理由看上去非常合理，我也确实认同，但请假扣分制度事实上遭到如此多同学的反对（尤其是出国方向同学们的反对）也不会是没有原因的。这么大的抗议声代表它一定存在不合理的地方或者至少是可以改进的地方。<br><br>
 从一个学生的角度来考虑，我确实因为请病假扣分制度而感到过困惑。<br><br>
@@ -24,8 +19,15 @@ body = %{
 请假扣分制度仅仅是学生们不满意的众多地方之一，还有许多地方（比如游学请假扣分、活动室管理）都可以讨论。这次讨论可谓“声势浩大”，希望学校的领导和老师（银杏时报上好像主要只有孙玉磊老师在回应，不知道其他的老师们是否能了解）能够认真地考虑学生们的意见，做出合适的回应。我们希望看到学校确实能听到学生们的声音，而不是忽悠我们评论一番，走个形式，最后却毫不改变。
 }
 
-1.upto 5 do |i|
-  Post.create!(title: "请假扣分制度的讨论 - #{i}", body: body, author: user1)
-  Post.create!(title: "驳：请假扣分制度的讨论 - #{i}", body: body, author: user2)
-  Post.create!(title: "呵呵：请假扣分制度的讨论 - #{i}", body: body, author: user3)
+user = User.create!(no: "test")
+Post.create!(title: "请假扣分制度的讨论 part 1", body: body, author: user)
+Post.create!(title: "请假扣分制度的讨论 part 2", body: body, author: user)
+Post.create!(title: "请假扣分制度的讨论 part 3", body: body, author: user)
+admin = User.create!(no: "admin", is_admin: true)
+
+1.upto 100 do |i|
+  user = User.create!(no: "test#{i}")
+  Post.create!(title: "请假扣分制度的讨论 part 1 - #{i}", body: body, author: user)
+  Post.create!(title: "请假扣分制度的讨论 part 2 - #{i}", body: body, author: user)
+  Post.create!(title: "请假扣分制度的讨论 part 3 - #{i}", body: body, author: user)
 end

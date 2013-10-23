@@ -41,7 +41,7 @@ gem 'kaminari'
 gem 'cancan'
 
 gem 'sanitize'
-gem 'carrierwave'
+# gem 'carrierwave'
 # gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 # gem 'mini_magick'
 # gem 'rails_kindeditor'

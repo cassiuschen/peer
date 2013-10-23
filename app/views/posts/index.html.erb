@@ -1,15 +1,35 @@
 <h1>
-  All posts
-  <%= link_to 'New Post', new_post_path, class: "btn btn-default pull-right" %>
+  <%= 
+    if action_name == "my"
+      "My"
+    elsif params[:author]
+      if @posts.first
+        "#{@posts.first.author_name}'s"
+      else
+        "#{params[:author]}'s"
+      end
+    else
+      "All"
+    end
+   %>
+  posts
 </h1>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Author</th>
-      <th width="140px">Created at</th>
-      <th>Score</th>
+      <th>
+        <%= link_to "Title", params.merge(sort: "title"), style: "color: inherit;" %>
+      </th>
+      <th>
+        <%= link_to "Author", params.merge(sort: "author"), style: "color: inherit;" %>
+      </th>
+      <th width="140px">
+        <%= link_to "Created at", params.merge(sort: "time"), style: "color: inherit;" %>
+      </th>
+      <th width="150px">
+        <%= link_to "Score", params.merge(sort: "score"), style: "color: inherit;" %>
+      </th>
       <th width="100px"></th>
     </tr>
   </thead>
@@ -18,11 +38,11 @@
     <% @posts.each do |post| %>
       <tr>
         <td><%= link_to post.title, post %></td>
-        <td><%= post.author.name %></td>
+        <td><%= link_to post.author_name, root_path(author: post.author_id), style: "color: inherit;" %></td>
         <td><%= kind_time post.created_at %></td>
-        <td><%= post.score %></td>
+        <td><%= post.score %> from <%= pluralize post.scores_count, "person" %></td>
         <td>
-          <% if can? :edit, post %>
+          <% if is_admin? or post.author_id == current_user.id %>
             <%= link_to "Edit", edit_post_path(post) %> |
             <%= link_to "Delete", post, method: :delete, data: { confirm: "Are you sure?" } %>
           <% end -%>
@@ -31,3 +51,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= paginate @posts %>

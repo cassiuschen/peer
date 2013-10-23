@@ -3,12 +3,28 @@ class PostsController < ApplicationController
 
   # GET /
   def index
-    @posts = Post.all.includes(:author, :scores)
+    order = {
+        score: "score",
+        author: "author",
+        title: "title",
+        time: "created_at"
+      }[(params[:sort] || :time).to_sym] || "created_at"
+    if params[:author]
+      @posts = Post.where(author_id: params[:author]).desc(order).page params[:page]
+    else
+      @posts = Post.desc(order).page params[:page]
+    end
   end
 
   # GET /my
   def my
-    @posts = current_user.posts
+    order = {
+        score: "score",
+        author: "author",
+        title: "title",
+        time: "created_at"
+      }[(params[:sort] || :time).to_sym] || "created_at"
+    @posts = current_user.posts.desc(order).page params[:page]
     render "index"
   end
 
@@ -64,13 +80,22 @@ class PostsController < ApplicationController
     if Comment.create(comment_params)
       redirect_to post_path(@post, anchor: "comments")
     else
-      redirect_to @post, alert: { error: "Comment error!" }
+      redirect_to @post, alert: { danger: "Comment error!" }
     end
   end
 
-  # POST /posts/1/score
+  # GET /posts/1/score/:score
   def score
-    
+    if current_user.can_score?(@post)
+      s = Score.new(user: current_user, post: @post, point: params[:score])
+      if s.save
+        redirect_to post_path(@post, anchor: "raty"), alert: { success: "Score successfully." }
+      else
+        redirect_to post_path(@post, anchor: "raty"), alert: { danger: "Score error!" }
+      end
+    else
+      redirect_to post_path(@post, anchor: "raty"), alert: { danger: "You cannot score this post!" }
+    end
   end
 
   # DELETE /comments/2
@@ -80,7 +105,7 @@ class PostsController < ApplicationController
     if @comment.update_attributes(deleted_at: Time.now)
       redirect_to post_path(@post, anchor: "comments")
     else
-      redirect_to @post, alert: { error: "Delete error!" }
+      redirect_to @post, alert: { danger: "Delete error!" }
     end
   end
 

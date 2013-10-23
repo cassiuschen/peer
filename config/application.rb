@@ -26,6 +26,6 @@ module Peer
     config.i18n.default_locale = "zh-CN"
     config.i18n.fallbacks = [:en]
   
-    CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/
+    # CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/
   end
 end

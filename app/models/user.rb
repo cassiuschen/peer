@@ -15,6 +15,10 @@ class User
   has_many :comments, inverse_of: :author
   has_many :scores
 
+  def can_score?(post)
+    self != post.author && self.scores.where(post: post).blank? && post.scores.count <= 10
+  end
+
   def is_admin?
     !!is_admin
   end
@@ -24,6 +28,12 @@ class User
       "管理员"
     else
       "学生"
+    end
+  end
+
+  after_save do
+    self.posts.each do |p|
+      Rails.cache.delete(["author_name", p.id])
     end
   end
 end

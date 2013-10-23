@@ -1,12 +1,7 @@
-<form action="" class="raty">
-  <input type="text" name="" id="raty_input" required placeholder="分值1-20" maxlength="2" />
-  <!-- required="true" -->
-  <button type="submit" class="btn btn-primary">评分</button>
-</form>
 <article>
   <h1 class="text-center"><%= @post.title %></h1>
   <div class="text-right">
-    <b><%= @post.author.name %></b>
+    <b><%= @post.author_name %></b>
     <br>
     <span class="text-muted"><%= kind_time @post.created_at %></span>
   </div>
@@ -20,17 +15,26 @@
   <% end -%>
 </article>
 
-<div class="score text-right">
-  <div class="score-item">
-    <strong>平 均 分：</strong>
-    <span class="no">17</span>
+<div id="raty">
+  <div data-toggle="raty" <%= 'disabled' unless current_user.can_score? (@post) %> data-score="<%= @post.score %>">
+    <% if current_user.can_score? (@post) %>
+      <% 20.times do |i| %>
+        <a href="<%= score_post_path(@post, i + 1) %>" class="glyphicon rate"></a>
+      <% end -%>
+    <% else %>
+      <%= raw '<span class="glyphicon rate"></span> ' * 20 %>
+    <% end -%>
   </div>
-  <div class="score-item">
-    <strong>已评/总数：</strong>
-    <span class="number">0/10</span>
+  <div class="text-muted" style="margin-top: 10px;">
+    <% if @post.scores.present? %>
+      <%= @post.score %> out of 20, from <%= @post.scores.map{ |s| s.user.name }.join(", ") %>.
+    <% else %>
+      No one has scored yet.
+    <% end -%>
   </div>
 </div>
-<div id="comments" style="margin-top: 70px;">
+
+<div id="comments">
   <h3><%= pluralize(@post.comments.count, "reply") %>: </h3>
   <% @comments.each do |comment| %>
     <hr class="m0">
@@ -38,7 +42,7 @@
       <% if comment.deleted_at %>
       <div class="text-center text-muted" style="text-decoration: line-through; margin: 5px;">#<%= comment.level %> has been deleted</div>
       <% else %>
-      <span style="color: #777;"><%= comment.author.name %></span> &nbsp;
+      <span style="color: #777;"><%= comment.author_name %></span> &nbsp;
       <span style="color: #BBB;"><%= comment.level %>楼, <%= kind_time comment.created_at %></span>
       <div class="pull-right in">
         <a href="###" class="text-muted" data-toggle="comment"><span class="glyphicon glyphicon-comment"></span></a>

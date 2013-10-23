@@ -19,13 +19,15 @@
   <% content_for :script do %>
   <script type="text/javascript">
     $(document).ready(function(){
-      $('.wysihtml5').wysihtml5();
+      $('.wysihtml5').wysihtml5({
+          "image": false,
+          "color": true
+        });
     })
   </script>
   <% end -%>
 
-  <div class="actions">
+  <div style="margin-top: 10px;">
     <%= f.submit class: "btn btn-primary" %>
-    <%= link_to 'Back', posts_path %>
   </div>
 <% end %>
