@@ -1,3 +1,8 @@
+<form action="" class="raty">
+  <input type="text" name="" id="raty_input" required placeholder="分值1-20" maxlength="2" />
+  <!-- required="true" -->
+  <button type="submit" class="btn btn-primary">评分</button>
+</form>
 <article>
   <h1 class="text-center"><%= @post.title %></h1>
   <div class="text-right">
@@ -15,6 +20,16 @@
   <% end -%>
 </article>
 
+<div class="score text-right">
+  <div class="score-item">
+    <strong>平 均 分：</strong>
+    <span class="no">17</span>
+  </div>
+  <div class="score-item">
+    <strong>已评/总数：</strong>
+    <span class="number">0/10</span>
+  </div>
+</div>
 <div id="comments" style="margin-top: 70px;">
   <h3><%= pluralize(@post.comments.count, "reply") %>: </h3>
   <% @comments.each do |comment| %>
