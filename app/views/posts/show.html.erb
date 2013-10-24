@@ -16,7 +16,9 @@
 </article>
 
 <div id="raty">
-
+  <p class="text-left muted">
+    点击星星将生成分数，每颗星星代表一分，不评价将默认为0。
+  </p>
   <div id="raty-alt">
     <ul>
       <li>方案完整性0-5分</li>
@@ -33,7 +35,7 @@
               <a href="<%= score_post_path(@post, i + 1) %>" class="glyphicon rate" title="<%= i+1 %>分"></a>
             <% end -%>
           <% else %>
-            <% for i in 1..4 do %>
+            <% for i in 1..5 do %>
             <%= raw '<span class="glyphicon rate"></span>' %>&nbsp;&nbsp;
             <% end %>
           <% end -%>
