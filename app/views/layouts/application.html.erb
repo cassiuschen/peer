@@ -21,16 +21,16 @@
     <div class="header">
       <ul class="nav nav-pills pull-right">
         <li <%= raw 'class="active"' if request.path == root_path %>>
-          <%= link_to "All Posts", root_path %>
+          <%= link_to "所有/ All Posts", root_path %>
         </li>
         <li <%= raw 'class="active"' if request.path == my_posts_path %>>
-          <%= link_to "My Posts", my_posts_path %>
+          <%= link_to "我的/ My Posts", my_posts_path %>
         </li>
         <li <%= raw 'class="active"' if request.path == new_post_path %>>
-          <%= link_to 'New Post', new_post_path %>
+          <%= link_to '新建/ New Post', new_post_path %>
         </li>
         <li>
-          <%= link_to "Sign out", logout_path %>
+          <%= link_to "登出/ Sign out", logout_path %>
         </li>
       </ul>
       <h1 class="brand">

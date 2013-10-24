@@ -1,7 +1,7 @@
 <h1>
   <%= 
     if action_name == "my"
-      "My"
+      "我的/ My posts"
     elsif params[:author]
       if @posts.first
         "#{@posts.first.author_name}'s"
@@ -9,26 +9,26 @@
         "#{params[:author]}'s"
       end
     else
-      "All"
+      "所有/ All posts"
     end
    %>
-  posts
+  
 </h1>
 
 <table class="table">
   <thead>
     <tr>
       <th>
-        <%= link_to "Title", params.merge(sort: "title"), style: "color: inherit;" %>
+        <%= link_to "标题/ Title", params.merge(sort: "title"), style: "color: inherit;" %>
       </th>
       <th>
-        <%= link_to "Author", params.merge(sort: "author"), style: "color: inherit;" %>
+        <%= link_to "作者/ Author", params.merge(sort: "author"), style: "color: inherit;" %>
       </th>
       <th width="140px">
-        <%= link_to "Created at", params.merge(sort: "time"), style: "color: inherit;" %>
+        <%= link_to "时间/ Created at", params.merge(sort: "time"), style: "color: inherit;" %>
       </th>
       <th width="150px">
-        <%= link_to "Score", params.merge(sort: "score"), style: "color: inherit;" %>
+        <%= link_to "评分/ Score", params.merge(sort: "score"), style: "color: inherit;" %>
       </th>
       <th width="100px"></th>
     </tr>
@@ -43,9 +43,9 @@
         <td><%= post.score %> from <%= pluralize post.scores_count, "person" %></td>
         <td>
           <% if is_admin? or post.author_id == current_user.id %>
-            <%= link_to "Edit", edit_post_path(post) %>
+            <%= link_to "修改/Edit", edit_post_path(post) %>
             <% if is_admin? %>
-            | <%= link_to "Delete", post, method: :delete, data: { confirm: "Are you sure?" } %>
+            | <%= link_to "删除/Delete", post, method: :delete, data: { confirm: "Are you sure?" } %>
             <% end -%>
           <% end -%>
         </td>
