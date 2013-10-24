@@ -4,6 +4,8 @@ class Post
 
   field :title, type: String
   field :body, type: String
+
+  field :author_name, type: String
   field :score, type: Float, default: 0.0
   field :scores_count, type: Integer, default: 0
 
@@ -27,12 +29,11 @@ class Post
       },
       :remove_contents => true
     )
+    self.author_name = self.author.name
   end
 
-  def author_name
-    Rails.cache.fetch(["author_name", self.id]) do
-      author.name
-    end
+  def update_author_name
+    set(author_name: author.name)
   end
 
   def update_score

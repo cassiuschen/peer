@@ -20,3 +20,11 @@ $('[data-toggle="raty"]:not([disabled])').on 'mouseenter', '.rate', (e) ->
   set($(this))
 .mouseleave (e) ->
   reset($(this))
+.on 'click', '.rate', (e) ->
+  $this = $(this)
+  $parent = $this.parent()
+  score = $this.index() + 1
+  $parent.addClass("hover")
+  $parent.attr("data-score", score)
+  $($parent.attr("data-input")).val(score).change()
+  return false;

@@ -157,6 +157,11 @@ output {
   textarea& {
     height: auto;
   }
+
+  &[type="search"] {
+    padding-left: @padding-base-horizontal + 5px;
+    border-radius: @input-height-base / 2 + @padding-base-vertical;
+  }
 }
 
 

@@ -15,58 +15,52 @@
   <% end -%>
 </article>
 
+<% can_score = current_user.can_score? @post %>
+
 <div id="raty">
-  <p class="text-left muted">
-    点击星星将生成分数，每颗星星代表一分，不评价将默认为0。
-  </p>
   <div id="raty-alt">
     <ul>
-      <li>方案完整性0-5分</li>
-      <li>是否评述不同观点0-5分</li>
-      <li>给出规定的具体程度0-5分</li>
-      <li>理性逻辑程度0-5分</li>
+      <li>方案完整性</li>
+      <li>是否评述不同观点</li>
+      <li>给出规定的具体程度</li>
+      <li>理性逻辑程度</li>
     </ul>
     <ul>
-      <% for i in 1..4 do %>
+      <% 4.times do |i| %>
       <li>
-        <div data-toggle="raty" <%= 'disabled' unless current_user.can_score? (@post) %> data-score="<%= @post.score %>">
-          <% if current_user.can_score? (@post) %>
-            <% 5.times do |i| %>
-              <a href="<%= score_post_path(@post, i + 1) %>" class="glyphicon rate" title="<%= i+1 %>分"></a>
+        <div data-toggle="raty" <%= 'disabled' unless can_score %> data-score="<%= @scores.present? ? @scores.sum("point#{i+1}") / @scores.count : 0 %>" data-input="#score_point<%= i + 1 %>">
+          <% if can_score %>
+            <% 5.times do |j| %>
+              <a href="###" class="glyphicon rate" title="<%= j + 1 %>分"></a>
             <% end -%>
           <% else %>
-            <% for i in 1..5 do %>
-            <%= raw '<span class="glyphicon rate"></span>' %>&nbsp;&nbsp;
-            <% end %>
+            <%= raw '<span class="glyphicon rate"></span> ' * 5 %>
           <% end -%>
         </div>
       </li>
       <% end %>
     </ul>
   </div>
-  <!-- <div data-toggle="raty" <%= 'disabled' unless current_user.can_score? (@post) %> data-score="<%= @post.score %>">
-    <% if current_user.can_score? (@post) %>
-      <% 5.times do |i| %>
-        <a href="<%= score_post_path(@post, i + 1) %>" class="glyphicon rate" title="<%= i+1 %>分"></a>
-      <% end -%>
+  <div class="text-muted" style="clear:both; margin-top: 50px;">
+    <% if @scores.present? %>
+      Totally: <%= @post.score %>,
+      from <%= @scores.map{ |s| s.user.name }.join(", ") %>
     <% else %>
-      <% for i in 1..4 do %>
-      <%= raw '<span class="glyphicon rate"></span> ' * 5 %>&nbsp;&nbsp;
-      <% end %>
-    <% end -%>
-  </div> -->
-  <div class="text-muted" style="clear:both;margin-top: 50px;">
-    <% if @post.scores.present? %>
-      <%= @post.score %> out of 20, from <%= @post.scores.map{ |s| s.user.name }.join(", ") %> <br>   总分20 平均分<%= @post.score %> 来自<%= @post.scores.map{ |s| s.user.name }.join(", ") %>
-    <% else %>
-      No one has scored yet. / 还没有人打分。
+      No one has rated yet. / 还没有人打分。
     <% end -%>
   </div>
+  <%= form_for "score", url: score_post_path(@post), html: { style: "display: none;" } do |f| %>
+    <%= f.hidden_field "point1", data: { toggle: "rate" } %>
+    <%= f.hidden_field "point2", data: { toggle: "rate" } %>
+    <%= f.hidden_field "point3", data: { toggle: "rate" } %>
+    <%= f.hidden_field "point4", data: { toggle: "rate" } %>
+    <%= f.submit %>
+  <% end -%>
 </div>
 
 <div id="comments">
-  <h3><%= pluralize(@post.comments.count, "reply") %>/ 
-    <%= pluralize(@post.comments.count, "") %>回复: </h3>
+  <h3><%= pluralize(@post.comments.length, "reply") %> / 
+    <%= @post.comments.length %> 回复: </h3>
   <% @comments.each do |comment| %>
     <hr class="m0">
     <div class="one-comment" id="comment-<%= comment.level %>" data-level="<%= comment.level %>">
@@ -115,6 +109,16 @@
     val += "#" + $(this).closest('[data-level]').attr('data-level') + '楼 ';
     $input.focus().val(val);
     return false;
+  })
+  $('[data-toggle="rate"]').change(function () {
+    var $this = $(this);
+    var points = $this.siblings('[data-toggle="rate"]');
+    for (var i = points.length - 1; i >= 0; i--) {
+      if (points[i].value == "") {
+        return;
+      };
+    };
+    $this.parent().submit();
   })
 </script>
 <% end -%>

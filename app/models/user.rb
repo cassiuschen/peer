@@ -33,7 +33,7 @@ class User
 
   after_save do
     self.posts.each do |p|
-      Rails.cache.delete(["author_name", p.id])
+      p.update_author_name
     end
   end
 end

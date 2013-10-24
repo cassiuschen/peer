@@ -112,10 +112,6 @@
   margin: 20px auto;
   padding: 20px;
   text-align: center;
-
-  .muted {
-    color: #999;
-  }
   .rate {
     font-size: 20px;
     line-height:30px;
@@ -125,7 +121,7 @@
       color: #BBB;
     }
   }
-  [data-toggle]:hover:not([disabled]) {
+  [data-toggle]:hover:not([disabled]), [data-toggle].hover {
     .rate.active {
       color: @brand-warning;
     }

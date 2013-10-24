@@ -2,7 +2,7 @@ Peer::Application.routes.draw do
   resources :posts, except: :index do
     member do
       post "comment", to: "posts#comment", as: :comment
-      get "score/:score", to: "posts#score", as: :score
+      post "score", to: "posts#score", as: :score
     end
   end
   get "/my", to: "posts#my", as: :my_posts

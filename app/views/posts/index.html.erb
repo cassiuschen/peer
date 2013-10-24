@@ -1,15 +1,11 @@
 <h1>
   <%= 
     if action_name == "my"
-      "我的/ My posts"
-    elsif params[:author]
-      if @posts.first
-        "#{@posts.first.author_name}'s"
-      else
-        "#{params[:author]}'s"
-      end
+      "我的  / My posts"
+    elsif params[:search]
+      "Search #{params[:search]}: "
     else
-      "所有/ All posts"
+      "所有 / All posts"
     end
    %>
   
@@ -19,16 +15,16 @@
   <thead>
     <tr>
       <th>
-        <%= link_to "标题/ Title", params.merge(sort: "title"), style: "color: inherit;" %>
+        <%= link_to "标题 / Title", params.merge(sort: "title"), style: "color: inherit;" %>
       </th>
       <th>
-        <%= link_to "作者/ Author", params.merge(sort: "author"), style: "color: inherit;" %>
+        <%= link_to "作者 / Author", params.merge(sort: "author"), style: "color: inherit;" %>
       </th>
       <th width="140px">
-        <%= link_to "时间/ Created at", params.merge(sort: "time"), style: "color: inherit;" %>
+        <%= link_to "时间 / Created at", params.merge(sort: "time"), style: "color: inherit;" %>
       </th>
       <th width="150px">
-        <%= link_to "评分/ Score", params.merge(sort: "score"), style: "color: inherit;" %>
+        <%= link_to "评分 / Score", params.merge(sort: "score"), style: "color: inherit;" %>
       </th>
       <th width="100px"></th>
     </tr>
@@ -38,14 +34,16 @@
     <% @posts.each do |post| %>
       <tr>
         <td><%= link_to post.title, post %></td>
-        <td><%= link_to post.author_name, root_path(author: post.author_id), style: "color: inherit;" %></td>
+        <td><%= link_to post.author_name, root_path(search: post.author_name), style: "color: inherit;" %></td>
         <td><%= kind_time post.created_at %></td>
         <td><%= post.score %> from <%= pluralize post.scores_count, "person" %></td>
         <td>
           <% if is_admin? or post.author_id == current_user.id %>
-            <%= link_to "修改/Edit", edit_post_path(post) %>
             <% if is_admin? %>
-            | <%= link_to "删除/Delete", post, method: :delete, data: { confirm: "Are you sure?" } %>
+            <%= link_to "Edit", edit_post_path(post) %>
+            | <%= link_to "Delete", post, method: :delete, data: { confirm: "Are you sure?" } %>
+            <% else %>
+            <%= link_to "修改/Edit", edit_post_path(post) %>
             <% end -%>
           <% end -%>
         </td>

@@ -9,8 +9,9 @@ class PostsController < ApplicationController
         title: "title",
         time: "created_at"
       }[(params[:sort] || :time).to_sym] || "created_at"
-    if params[:author]
-      @posts = Post.where(author_id: params[:author]).desc(order).page params[:page]
+    if params[:search]
+      pattern = params[:search].split(/\s/).reject(&:empty?).map{|s| /#{Regexp.escape(s)}/i }
+      @posts = Post.or({ :title.all => pattern }, { :author_name.all => pattern }).desc(order).page params[:page]
     else
       @posts = Post.desc(order).page params[:page]
     end
@@ -30,6 +31,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1
   def show
+    @scores = @post.scores
     @comment = Comment.new
     @comments = @post.comments
   end
@@ -87,7 +89,9 @@ class PostsController < ApplicationController
   # GET /posts/1/score/:score
   def score
     if current_user.can_score?(@post)
-      s = Score.new(user: current_user, post: @post, point: params[:score])
+      score_params = params.require(:score).permit(:point1, :point2, :point3, :point4)
+      score_params = score_params.merge(user: current_user, post: @post)
+      s = Score.new(score_params)
       if s.save
         redirect_to post_path(@post, anchor: "raty"), alert: { success: "Score successfully." }
       else
