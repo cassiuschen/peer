@@ -4,7 +4,7 @@ class Post
 
   field :title, type: String
   field :body, type: String
-  field :score, type: Float
+  field :score, type: Float, default: 0.0
   field :scores_count, type: Integer, default: 0
 
   has_many :comments, dependent: :delete
