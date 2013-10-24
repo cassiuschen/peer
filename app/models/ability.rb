@@ -14,7 +14,6 @@ class Ability
         can :score, Post
         can :create, Post
         can :update, Post, author: user
-        can :destroy, Post, author: user
         can :score, Post
       end
 
