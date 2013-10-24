@@ -48,7 +48,7 @@ gem 'sanitize'
 gem 'bootstrap-wysihtml5-rails'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
