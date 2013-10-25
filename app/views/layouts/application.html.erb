@@ -55,6 +55,7 @@
 
   <% unless current_user.has_signed_in %>
     <% current_user.set(has_signed_in: true) %>
+    <div class="tour-bg"></div>
     <div id="tour">
       <div class="popover-content">
         <div class="popover-wraper">
@@ -65,7 +66,7 @@
           <p><%= image_tag "2.png" %></p>
           <p>三、每人均选择至少5篇文章进行打分，打分需从四个方面进行。</p>
           <p><%= image_tag "3.png" %></p>
-          <button class="btn btn-primary pull-right" onclick="$('#tour').fadeOut()" style="margin-right: 30px;">我知道了</button>
+          <button class="btn btn-primary pull-right" onclick="$('#tour, .tour-bg').fadeOut()" style="margin-right: 30px;">我知道了</button>
         </div>
       </div>
     </div>
