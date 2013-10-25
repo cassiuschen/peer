@@ -44,7 +44,7 @@
   </div>
   <div class="text-muted" style="clear:both; margin-top: 50px;">
     <% if @scores.present? %>
-      Totally: <%= @post.score %>,
+      Totally: <%= format("%.2f", @post.score) %>,
       from <%= @scores.map{ |s| s.user.name }.join(", ") %>
     <% else %>
       No one has rated yet. / 还没有人打分。

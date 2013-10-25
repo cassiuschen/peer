@@ -38,7 +38,7 @@
         <td><%= link_to post.title, post %></td>
         <td><%= link_to post.author_name, root_path(search: post.author_name), style: "color: inherit;" %></td>
         <td><%= kind_time post.created_at %></td>
-        <td><%= post.score %> from <%= pluralize post.scores_count, "person" %></td>
+        <td><%= format("%.2f", post.score) %> from <%= pluralize post.scores_count, "person" %></td>
         <td>
           <% if is_admin? or post.author_id == current_user.id %>
             <% if is_admin? %>
