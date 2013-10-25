@@ -10,6 +10,7 @@ class User
   validates_presence_of :name
 
   field :is_admin, type: Boolean, default: false
+  field :has_signed_in, type: Boolean, default: false
 
   has_many :posts, inverse_of: :author
   has_many :comments, inverse_of: :author

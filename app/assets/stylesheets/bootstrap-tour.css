@@ -1,0 +1,30 @@
+#tour {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1009;
+  background-color: #000;
+  background-color: rgba(0,0,0,.9);
+}
+.popover-content {
+  width: 592px;
+  color: #fff;
+  margin: 30px auto;
+}
+.popover-content .btn{
+  margin: 30px 30px 0 0;
+}
+.popover-wraper h3{
+  padding-bottom: 20px;
+}
+.popover-wraper p{
+  text-indent: 24px;
+  line-height: 30px;
+}
+.popover-wraper p img {
+  width: 510px;
+  border-radius: 3px;
+  margin-bottom: 15px;
+}

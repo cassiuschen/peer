@@ -52,5 +52,23 @@
 
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= yield :script %>
+
+  <% unless current_user.has_signed_in %>
+    <% current_user.set(has_signed_in: true) %>
+    <div id="tour">
+      <div class="popover-content">
+        <div class="popover-wraper">
+          <h3>欢迎大家登陆晨会作业平台，在本平台中大家需要完成三件事：</h3>
+          <p>一、发布一篇作业，主题应围绕北大附中考勤制度</p>
+          <p><%= image_tag "1.png" %></p>
+          <p>二、在平台内观看其他同学的文章，并进行评论与交流</p>
+          <p><%= image_tag "2.png" %></p>
+          <p>三、每人均选择至少5篇文章进行打分，打分需从四个方面进行。</p>
+          <p><%= image_tag "3.png" %></p>
+          <button class="btn btn-primary pull-right" onclick="$('#tour').fadeOut()" style="margin-right: 30px;">我知道了</button>
+        </div>
+      </div>
+    </div>
+  <% end -%>
 </body>
 </html>
