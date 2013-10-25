@@ -1,7 +1,9 @@
 <h1>
   <%= 
     if action_name == "my"
-      "我的  / My posts"
+      "我的 / My posts"
+    elsif action_name == "scored"
+      "已评 / Rated Posts"
     elsif params[:search]
       "Search #{params[:search]}: "
     else
@@ -52,4 +54,8 @@
   </tbody>
 </table>
 
-<%= paginate @posts %>
+<% if @scores %>
+  <%= paginate @scores %>
+<% else %>
+  <%= paginate @posts %>
+<% end -%>

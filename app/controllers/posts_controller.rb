@@ -1,31 +1,27 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy, :comment, :score]
+  before_action :set_order, only: [:index, :my, :scored]
 
   # GET /
   def index
-    order = {
-        score: "score",
-        author: "author",
-        title: "title",
-        time: "created_at"
-      }[(params[:sort] || :time).to_sym] || "created_at"
     if params[:search]
       pattern = params[:search].split(/\s/).reject(&:empty?).map{|s| /#{Regexp.escape(s)}/i }
       @posts = Post.or({ :title.all => pattern }, { :author_name.all => pattern }).desc(order).page params[:page]
     else
-      @posts = Post.desc(order).page params[:page]
+      @posts = Post.desc(@order).page params[:page]
     end
   end
 
   # GET /my
   def my
-    order = {
-        score: "score",
-        author: "author",
-        title: "title",
-        time: "created_at"
-      }[(params[:sort] || :time).to_sym] || "created_at"
-    @posts = current_user.posts.desc(order).page params[:page]
+    @posts = current_user.posts.desc(@order).page params[:page]
+    render "index"
+  end
+
+  # GET /scored
+  def scored
+    @scores = current_user.scores.includes(:post).page(params[:page])
+    @posts = @scores.map(&:post)
     render "index"
   end
 
@@ -117,6 +113,15 @@ class PostsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
+    end
+
+    def set_order
+      @order = {
+          score: "score",
+          author: "author",
+          title: "title",
+          time: "created_at"
+        }[(params[:sort] || :time).to_sym] || "created_at"
     end
 
     # Only allow a trusted parameter "white list" through.

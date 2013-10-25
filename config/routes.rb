@@ -6,6 +6,7 @@ Peer::Application.routes.draw do
     end
   end
   get "/my", to: "posts#my", as: :my_posts
+  get "/scored", to: "posts#scored", as: :scored_posts
   delete "/comments/:comment_id", to: "posts#destroy_comment", as: :delete_comment
 
   get "/sign_out", to: "application#logout", as: :logout

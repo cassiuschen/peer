@@ -28,14 +28,15 @@
     <ul>
       <% 4.times do |i| %>
       <li>
-        <div data-toggle="raty" <%= 'disabled' unless can_score %> data-score="<%= @scores.present? ? @scores.sum("point#{i+1}") / @scores.count : 0 %>" data-input="#score_point<%= i + 1 %>">
-          <% if can_score %>
-            <% 5.times do |j| %>
-              <a href="###" class="glyphicon rate" title="<%= j + 1 %>分"></a>
-            <% end -%>
-          <% else %>
-            <%= raw '<span class="glyphicon rate"></span> ' * 5 %>
+        <% if can_score %>
+          <div data-toggle="raty" <%= 'disabled' unless can_score %> data-score="0" data-input="#score_point<%= i + 1 %>">
+          <% 5.times do |j| %>
+            <a href="###" class="glyphicon rate" title="<%= j + 1 %>分"></a>
           <% end -%>
+        <% else %>
+          <div data-toggle="raty" <%= 'disabled' unless can_score %> data-score="<%= @scores.present? ? @scores.sum("point#{i+1}") / @scores.count : 0 %>" data-input="#score_point<%= i + 1 %>">
+          <%= raw '<span class="glyphicon rate"></span> ' * 5 %>
+        <% end -%>
         </div>
       </li>
       <% end %>

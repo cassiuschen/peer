@@ -10,6 +10,7 @@ class Ability
       else
         can :read, :all
         can :my, Post
+        can :scored, Post
         can :comment, Post
         can :score, Post
         can :create, Post
