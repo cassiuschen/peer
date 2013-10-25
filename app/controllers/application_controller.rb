@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     begin
       @current_user = User.find(session[:cas_user])
     rescue Mongoid::Errors::DocumentNotFound
-      @current_user = User.create!(no: session[:cas_user], last_sign_in_at: session[:previous_redirect_to_cas], last_sign_in_ip: request.remote_ip)
+      @current_user = User.create!(no: session[:cas_user])
     end
   end
 

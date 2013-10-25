@@ -27,5 +27,7 @@ module Peer
     config.i18n.fallbacks = [:en]
   
     # CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/
+
+    config.assets.precompile += ['ie.js']
   end
 end
