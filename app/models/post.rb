@@ -21,7 +21,7 @@ class Post
         li mark ol p pre q s samp small span strike strong sub sup time u ul var img table tbody tr td
       ],
       :attributes => {
-        :all    => ['style', 'width', 'height', 'src', 'color'],
+        :all    => ['style', 'width', 'height', 'src', 'color', 'class'],
         'a'     => ['title', 'href', 'target'],
       },
       :protocols => {
