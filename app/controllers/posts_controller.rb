@@ -75,7 +75,7 @@ class PostsController < ApplicationController
       author: current_user,
       post: @post
     }
-    if Comment.create(comment_params)
+    if comment_params[:body].present? and Comment.create(comment_params)
       redirect_to post_path(@post, anchor: "comments")
     else
       redirect_to @post, alert: { danger: "Comment error!" }
