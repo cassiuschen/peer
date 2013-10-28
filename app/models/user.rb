@@ -17,7 +17,7 @@ class User
   has_many :scores
 
   def can_score?(post)
-    self != post.author && self.scores.where(post: post).blank? && post.scores.count <= 10
+    self != post.author && self.scores.where(post: post).blank? && post.scores.count < 10
   end
 
   def is_admin?
