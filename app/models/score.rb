@@ -30,4 +30,8 @@ class Score
   after_create do
     self.post.update_score
   end
+
+  after_destroy do
+    self.post.update_score
+  end
 end

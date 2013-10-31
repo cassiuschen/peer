@@ -37,7 +37,7 @@ class Post
   end
 
   def update_score
-    set(score: scores.present? ? scores.sum(&:point).to_f / scores.count : 0,
+    set(score: scores.exists? ? scores.sum(&:point).to_f / scores.count : 0,
         scores_count: scores.count)
   end
 end
