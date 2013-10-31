@@ -47,7 +47,7 @@
   <div class="text-muted" style="clear:both; margin-top: 50px;">
     <% if @scores.present? %>
       Totally: <%= format("%.2f", @post.score) %>,
-      from <%= raw @scores.map{ |s| s.user_id == current_user.id ? h(s.user_name) + " (" + link_to("Cancel", unscore_post_path(@post), class: "text-muted") + ")" : h(s.user_name) }.join(", ") %>
+      from <%= raw @scores.map{ |s| s.user_id == current_user.id ? h(s.user_name) + " (" + link_to("取消", unscore_post_path(@post), class: "text-danger") + ")" : h(s.user_name) }.join(", ") %>
     <% else %>
       No one has rated yet. / 还没有人打分。
     <% end -%>
