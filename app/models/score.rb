@@ -21,6 +21,12 @@ class Score
     self.user != self.post.author
   end
 
+  def user_name
+    Rails.cache.fetch(["user_name_score", self.id]) do
+      user.name
+    end
+  end
+
   after_create do
     self.post.update_score
   end

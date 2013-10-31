@@ -17,7 +17,7 @@ class User
   has_many :scores
 
   def can_score?(post)
-    self != post.author && self.scores.where(post: post).blank? && post.scores.count < 10
+    self != post.author && !self.scores.where(post: post).exists? && post.scores.count < 10
   end
 
   def is_admin?
@@ -35,6 +35,12 @@ class User
   after_save do
     self.posts.each do |p|
       p.update_author_name
+      self.comments.each do |comment|
+        Rails.cache.delete(["author_name_comment", comment.id])
+      end
+      self.scores.each do |score|
+        Rails.cache.delete(["user_name_score", score.id])
+      end
     end
   end
 end

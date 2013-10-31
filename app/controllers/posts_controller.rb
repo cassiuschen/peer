@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :comment, :score]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :comment, :score, :unscore]
   before_action :set_order, only: [:index, :my, :scored]
 
   # GET /
@@ -82,20 +82,26 @@ class PostsController < ApplicationController
     end
   end
 
-  # GET /posts/1/score/:score
+  # POST /posts/1/score
   def score
     if current_user.can_score?(@post)
       score_params = params.require(:score).permit(:point1, :point2, :point3, :point4)
       score_params = score_params.merge(user: current_user, post: @post)
       s = Score.new(score_params)
       if s.save
-        redirect_to post_path(@post, anchor: "raty"), alert: { success: "Score successfully." }
+        redirect_to post_path(@post, anchor: "raty"), alert: { success: "Rate successfully." }
       else
-        redirect_to post_path(@post, anchor: "raty"), alert: { danger: "Score error!" }
+        redirect_to post_path(@post, anchor: "raty"), alert: { danger: "Rate error!" }
       end
     else
       redirect_to post_path(@post, anchor: "raty"), alert: { danger: "You cannot score this post!" }
     end
+  end
+
+  # GET /posts/1/unscore
+  def unscore
+    current_user.scores.where(post: @post).destroy
+    redirect_to post_path(@post, anchor: "raty"), alert: { success: "Rate deleted." }
   end
 
   # DELETE /comments/2

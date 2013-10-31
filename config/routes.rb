@@ -3,6 +3,7 @@ Peer::Application.routes.draw do
     member do
       post "comment", to: "posts#comment", as: :comment
       post "score", to: "posts#score", as: :score
+      get "unscore", to: "posts#unscore", as: :unscore
     end
   end
   get "/my", to: "posts#my", as: :my_posts
