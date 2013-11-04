@@ -13,7 +13,7 @@ class Ability
         can :scored, Post
         can :comment, Post
         can :score, Post
-        can :create, Post
+        # can :create, Post
         can :update, Post, author: user
         can :score, Post
         can :unscore, Post

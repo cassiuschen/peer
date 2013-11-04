@@ -27,9 +27,11 @@
         <li <%= raw 'class="active"' if request.path == scored_posts_path %>>
           <%= link_to "已评 / Rated", scored_posts_path %>
         </li>
-        <li <%= raw 'class="active"' if request.path == new_post_path %>>
-          <%= link_to '新建 / New', new_post_path %>
-        </li>
+        <% if is_admin? %>
+          <li <%= raw 'class="active"' if request.path == new_post_path %>>
+            <%= link_to '新建 / New', new_post_path %>
+          </li>
+        <% end -%>
         <li>
           <%= link_to "登出 / Sign out", logout_path %>
         </li>
