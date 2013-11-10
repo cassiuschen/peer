@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :comment, :score, :unscore]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :comment, :score, :unscore, :like, :unlike]
   before_action :set_order, only: [:index, :my, :scored]
 
   # GET /
@@ -25,9 +25,16 @@ class PostsController < ApplicationController
     render "index"
   end
 
+  # GET /scored
+  def favorite
+    @posts = current_user.favorite_posts.desc(@order).page params[:page]
+    render "index"
+  end
+
   # GET /posts/1
   def show
-    @scores = @post.scores
+    @scores = @post.scores.reject{|s| s.is_teacher?}
+    @teacher_scores = @post.scores.select{|s| s.is_teacher?}
     @comment = Comment.new
     @comments = @post.comments
   end
@@ -75,7 +82,7 @@ class PostsController < ApplicationController
       author: current_user,
       post: @post
     }
-    if comment_params[:body].present? and Comment.create(comment_params)
+    if Comment.create(comment_params)
       redirect_to post_path(@post, anchor: "comments")
     else
       redirect_to @post, alert: { danger: "Comment error!" }
@@ -84,7 +91,7 @@ class PostsController < ApplicationController
 
   # POST /posts/1/score
   def score
-    if current_user.can_score?(@post)
+    if current_user.can_score?(@post) || current_user.teacher_can_score?(@post)
       score_params = params.require(:score).permit(:point1, :point2, :point3, :point4)
       score_params = score_params.merge(user: current_user, post: @post)
       s = Score.new(score_params)
@@ -102,6 +109,18 @@ class PostsController < ApplicationController
   def unscore
     current_user.scores.where(post: @post).destroy
     redirect_to post_path(@post, anchor: "raty"), alert: { success: "Rate deleted." }
+  end
+
+  # GET /posts/1/like
+  def like
+    current_user.favorite_posts << @post
+    redirect_to :back
+  end
+
+  # GET /posts/1/unlike
+  def unlike
+    current_user.favorite_posts.delete @post
+    redirect_to :back
   end
 
   # DELETE /comments/2
@@ -124,7 +143,9 @@ class PostsController < ApplicationController
     def set_order
       @order = {
           score: "score",
-          author: "author",
+          teacher_score: "teacher_score",
+          author: "author_name",
+          author: "author_department",
           title: "title",
           time: "created_at"
         }[(params[:sort] || :time).to_sym] || "created_at"

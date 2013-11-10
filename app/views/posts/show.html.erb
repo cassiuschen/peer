@@ -1,9 +1,15 @@
 <article>
+  <% if current_user.like? @post %>
+    <%= link_to "取消收藏", unlike_post_path(@post), class: "btn btn-default pull-right" %>
+  <% else %>
+    <%= link_to "加入收藏", like_post_path(@post), class: "btn btn-primary pull-right" %>
+  <% end -%>
   <h1 class="text-center"><%= @post.title %></h1>
   <div class="text-right">
-    <b><%= link_to @post.author_name, root_path(search: @post.author_name), style: "color: inherit;" %></b>
-
-    <br>
+    <b><%= link_to @post.author_name, root_path(search: @post.author_name), style: "color: inherit;" %></b><br>
+    <% if @post.author_department.present? %>
+      <%= @post.author_department %><br>
+    <% end -%>
     <span class="text-muted"><%= kind_time @post.created_at %></span>
   </div>
   <br>
@@ -17,9 +23,11 @@
 </article>
 
 <% can_score = current_user.can_score? @post %>
+<% teacher_can_score = current_user.teacher_can_score? @post %>
 <% my_score = current_user.scores.where(post: @post).first %>
 
 <div id="raty">
+  <span>学生打分</span>
   <div id="raty-alt">
     <ul>
       <li>方案完整性</li>
@@ -35,11 +43,12 @@
           <% 5.times do |j| %>
             <a href="###" class="glyphicon rate" title="<%= j + 1 %>分"></a>
           <% end -%>
+          </div>
         <% else %>
-          <div data-toggle="raty" <%= 'disabled' unless can_score %> data-score="<%= @scores.present? ? @scores.sum("point#{i+1}") / @scores.count : 0 %>" data-input="#score_point<%= i + 1 %>">
+          <div data-toggle="raty" <%= 'disabled' unless can_score %> data-score="<%= @scores.present? ? @scores.inject(0){|sum, a| sum + a.send("point#{i+1}")} / @scores.count : 0 %>" data-input="#score_point<%= i + 1 %>">
           <%= raw '<span class="glyphicon rate"></span> ' * 5 %>
+          </div>
         <% end -%>
-        </div>
       </li>
       <% end %>
     </ul>
@@ -52,16 +61,52 @@
       No one has rated yet. / 还没有人打分。
     <% end -%>
   </div>
-  <% if can_score %>
-    <%= form_for "score", url: score_post_path(@post), html: { style: "display: none;" } do |f| %>
-      <%= f.hidden_field "point1", data: { toggle: "rate" } %>
-      <%= f.hidden_field "point2", data: { toggle: "rate" } %>
-      <%= f.hidden_field "point3", data: { toggle: "rate" } %>
-      <%= f.hidden_field "point4", data: { toggle: "rate" } %>
-      <%= f.submit %>
-    <% end -%>
-  <% end -%>
 </div>
+<div id="raty">
+  <span>教师打分</span>
+  <div id="raty-alt">
+    <ul>
+      <li>方案完整性</li>
+      <li>是否评述不同观点</li>
+      <li>给出规定的具体程度</li>
+      <li>理性逻辑程度</li>
+    </ul>
+    <ul>
+      <% 4.times do |i| %>
+      <li>
+        <% if teacher_can_score %>
+          <div data-toggle="raty" <%= 'disabled' unless teacher_can_score %> data-score="0" data-input="#score_point<%= i + 1 %>">
+          <% 5.times do |j| %>
+            <a href="###" class="glyphicon rate" title="<%= j + 1 %>分"></a>
+          <% end -%>
+        <% else %>
+          <div data-toggle="raty" <%= 'disabled' unless teacher_can_score %> data-score="<%= @teacher_scores.present? ? @teacher_scores.inject(0){|sum, a| sum + a.send("point#{i+1}")} / @teacher_scores.count : 0 %>" data-input="#score_point<%= i + 1 %>">
+          <%= raw '<span class="glyphicon rate"></span> ' * 5 %>
+        <% end -%>
+        </div>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="text-muted" style="clear:both; margin-top: 50px;">
+    <% if @teacher_scores.present? %>
+      Totally: <%= format("%.2f", @post.score) %>,
+      from <%= raw @teacher_scores.map{ |s| s.user_id == current_user.id ? h(s.user_name) + " (" + link_to("取消", unscore_post_path(@post), class: "text-danger") + ")" : h(s.user_name) }.join(", ") %>
+    <% else %>
+      No one has rated yet. / 还没有人打分。
+    <% end -%>
+  </div>
+</div>
+
+<% if can_score || teacher_can_score %>
+  <%= form_for "score", url: score_post_path(@post), html: { style: "display: none;" } do |f| %>
+    <%= f.hidden_field "point1", data: { toggle: "rate" } %>
+    <%= f.hidden_field "point2", data: { toggle: "rate" } %>
+    <%= f.hidden_field "point3", data: { toggle: "rate" } %>
+    <%= f.hidden_field "point4", data: { toggle: "rate" } %>
+    <%= f.submit %>
+  <% end -%>
+<% end -%>
 
 <div id="comments">
   <h3><%= pluralize(@post.comments.length, "reply") %> / 

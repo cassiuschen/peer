@@ -27,6 +27,12 @@ class Score
     end
   end
 
+  def is_teacher?
+    Rails.cache.fetch(["is_teacher_score", self.id]) do
+      user.is_teacher
+    end
+  end
+
   after_create do
     self.post.update_score
   end

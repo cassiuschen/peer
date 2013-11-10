@@ -4,10 +4,13 @@ Peer::Application.routes.draw do
       post "comment", to: "posts#comment", as: :comment
       post "score", to: "posts#score", as: :score
       get "unscore", to: "posts#unscore", as: :unscore
+      get "like", to: "posts#like", as: :like
+      get "unlike", to: "posts#unlike", as: :unlike
     end
   end
   get "/my", to: "posts#my", as: :my_posts
   get "/scored", to: "posts#scored", as: :scored_posts
+  get "/favorite", to: "posts#favorite", as: :favorite_posts
   delete "/comments/:comment_id", to: "posts#destroy_comment", as: :delete_comment
 
   get "/sign_out", to: "application#logout", as: :logout

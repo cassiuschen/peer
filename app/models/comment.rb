@@ -5,6 +5,7 @@ class Comment
   field :body, type: String
   field :level, type: Integer
   field :deleted_at, type: Time
+  validates :body, presence: true
 
   default_scope asc(:level)
 

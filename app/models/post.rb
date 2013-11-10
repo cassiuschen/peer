@@ -4,10 +4,15 @@ class Post
 
   field :title, type: String
   field :body, type: String
+  validates :title, presence: true
 
   field :author_name, type: String
+  field :author_department, type: String
+
   field :score, type: Float, default: 0.0
   field :scores_count, type: Integer, default: 0
+  field :teacher_score, type: Float, default: 0.0
+  field :teacher_scores_count, type: Integer, default: 0
 
   has_many :comments, dependent: :delete
   has_many :scores, dependent: :delete
@@ -32,12 +37,18 @@ class Post
     self.author_name = self.author.name
   end
 
-  def update_author_name
+  def update_author
     set(author_name: author.name)
+    set(author_department: author.department)
   end
 
   def update_score
-    set(score: scores.exists? ? scores.sum(&:point).to_f / scores.count : 0,
-        scores_count: scores.count)
+    s  = scores.reject { |s| s.is_teacher? }
+    ts = scores.select { |s| s.is_teacher? }
+    set(score: s.present? ? s.inject(0){ |sum, a| sum + a.point }.to_f / s.count : 0,
+        scores_count: s.count,
+        teacher_score: ts.present? ? ts.inject(0){ |sum, a| sum + a.point }.to_f / ts.count : 0,
+        teacher_scores_count: ts.count
+        )
   end
 end

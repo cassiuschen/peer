@@ -3,7 +3,9 @@
     if action_name == "my"
       "我的 / My posts"
     elsif action_name == "scored"
-      "已评 / Rated Posts"
+      "已评 / Rated posts"
+    elsif action_name == "favorite"
+      "收藏 / Favorite posts"
     elsif params[:search]
       "Search #{params[:search]}: "
     else
@@ -17,16 +19,22 @@
   <thead>
     <tr>
       <th>
-        <%= link_to "标题 / Title", params.merge(sort: "title"), style: "color: inherit;" %>
+        <%= link_to "标题", params.merge(sort: "title"), style: "color: inherit;" %>
       </th>
-      <th width="110px">
-        <%= link_to "作者 / Author", params.merge(sort: "author"), style: "color: inherit;" %>
+      <th width="80px">
+        <%= link_to "作者", params.merge(sort: "author"), style: "color: inherit;" %>
       </th>
-      <th width="140px">
-        <%= link_to "时间 / Created at", params.merge(sort: "time"), style: "color: inherit;" %>
+      <th width="80px">
+        <%= link_to "学院", params.merge(sort: "department"), style: "color: inherit;" %>
       </th>
-      <th width="150px">
-        <%= link_to "评分 / Score", params.merge(sort: "score"), style: "color: inherit;" %>
+      <th width="120px">
+        <%= link_to "时间", params.merge(sort: "time"), style: "color: inherit;" %>
+      </th>
+      <th width="100px">
+        <%= link_to "学生评分", params.merge(sort: "score"), style: "color: inherit;" %>
+      </th>
+      <th width="100px">
+        <%= link_to "教师评分", params.merge(sort: "teacher_score"), style: "color: inherit;" %>
       </th>
       <th width="100px"></th>
     </tr>
@@ -37,8 +45,14 @@
       <tr>
         <td><%= link_to post.title, post %></td>
         <td><%= link_to post.author_name, root_path(search: post.author_name), style: "color: inherit;" %></td>
+        <td><%= link_to post.author_department || "N/A", root_path(search: post.author_department), style: "color: inherit;" %></td>
         <td><%= kind_time post.created_at %></td>
-        <td><%= format("%.2f", post.score) %> from <%= pluralize post.scores_count, "person" %></td>
+        <td><%= format("%.2f", post.score) %>,
+          <%= "#{post.scores_count} ppl" %>
+        </td>
+        <td><%= format("%.2f", post.teacher_score) %>,
+          <%= "#{post.teacher_scores_count} ppl" %>
+        </td>
         <td>
           <% if is_admin? or post.author_id == current_user.id %>
             <% if is_admin? %>

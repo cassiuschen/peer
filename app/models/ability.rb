@@ -11,12 +11,15 @@ class Ability
         can :read, :all
         can :my, Post
         can :scored, Post
+        can :favorite, Post
         can :comment, Post
         can :score, Post
         # can :create, Post
         can :update, Post, author: user
         can :score, Post
         can :unscore, Post
+        can :like, Post
+        can :unlike, Post
       end
 
       cannot :score, Post, author: user
