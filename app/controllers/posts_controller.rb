@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   def index
     if params[:search]
       pattern = params[:search].split(/\s/).reject(&:empty?).map{|s| /#{Regexp.escape(s)}/i }
-      @posts = Post.or({ :title.all => pattern }, { :author_name.all => pattern }).desc(@order).page params[:page]
+      @posts = Post.or({ :title.all => pattern }, { :author_name.all => pattern }, { :body.all => pattern }, { :author_name.all => pattern }).desc(@order).page params[:page]
     else
       @posts = Post.desc(@order).page params[:page]
     end
