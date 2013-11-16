@@ -49,7 +49,8 @@ gem 'bootstrap-wysihtml5-rails'
 
 # Use unicorn as the app server
 gem 'unicorn'
-
+gem 'roo'
+gem 'axlsx'
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
