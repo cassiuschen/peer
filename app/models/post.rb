@@ -6,6 +6,9 @@ class Post
   field :body, type: String
   validates :title, presence: true
 
+  field :deleted_at, type: Time
+  default_scope where(:deleted_at => nil)
+
   field :author_name, type: String
   field :author_department, type: String
 
@@ -35,6 +38,10 @@ class Post
       :remove_contents => true
     )
     self.author_name = self.author.name
+  end
+
+  def hide
+    self.update_attributes(deleted_at: Time.now)
   end
 
   def update_author

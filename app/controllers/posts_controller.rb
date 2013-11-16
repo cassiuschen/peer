@@ -127,7 +127,7 @@ class PostsController < ApplicationController
   def destroy_comment
     @comment = Comment.find(params[:comment_id])
     @post = @comment.post
-    if @comment.update_attributes(deleted_at: Time.now)
+    if @comment.hide
       redirect_to post_path(@post, anchor: "comments")
     else
       redirect_to @post, alert: { danger: "Delete error!" }

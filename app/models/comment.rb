@@ -18,6 +18,10 @@ class Comment
     end
   end
 
+  def hide
+    self.update_attributes(deleted_at: Time.now)
+  end
+
   before_create do
     self.level = self.post.comments.count + 1
   end
