@@ -43,7 +43,7 @@
   <tbody>
     <% @posts.each do |post| %>
       <tr>
-        <td><%= link_to post.title, post %></td>
+        <td><%= link_to post.title, post, target: "_blank" %></td>
         <td><%= link_to post.author_name, root_path(search: post.author_name), style: "color: inherit;" %></td>
         <td><%= link_to post.author_department ? post.author_department.truncate(4, omission: "") : "N/A", root_path(search: post.author_department), style: "color: inherit;" %></td>
         <td><%= kind_time post.created_at %></td>
