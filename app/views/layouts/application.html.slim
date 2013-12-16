@@ -18,7 +18,7 @@ body
     .header
       = render 'layouts/nav'
       form action="/" style="float: right; margin: 3px 20px;"
-        input name="search" type="search" placeholder="搜索 / Search" class="form-control" value="<%= params[:search] %>"
+        input name="search" type="search" placeholder="搜索 / Search" class="form-control" value = params[:search]
       h1.brand
         = link_to "Peer", root_path, class: "text-muted"
 
