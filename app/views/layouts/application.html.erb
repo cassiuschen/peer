@@ -30,11 +30,16 @@
         <li <%= raw 'class="active"' if request.path == favorite_posts_path %>>
           <%= link_to "收藏", favorite_posts_path %>
         </li>
-        <% if is_admin? %>
+        <% if current_user.is_create_post? && is_post_submit? %>
           <li <%= raw 'class="active"' if request.path == new_post_path %>>
             <%= link_to '新建', new_post_path %>
           </li>
         <% end -%>
+        <% if is_admin? %>
+          <li <%= raw 'class="active"' if request.path == setting_path %>>
+            <%= link_to '系统配置', setting_path %>
+          </li>
+        <% end %>
         <li>
           <%= link_to "登出", logout_path %>
         </li>

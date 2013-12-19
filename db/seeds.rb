@@ -20,9 +20,6 @@ body = %{
 }
 
 user = User.create!(no: "test")
-Post.create!(title: "请假扣分制度的讨论 part 1", body: body, author: user)
-Post.create!(title: "请假扣分制度的讨论 part 2", body: body, author: user)
-Post.create!(title: "请假扣分制度的讨论 part 3", body: body, author: user)
 admin = User.create!(no: "admin", is_admin: true)
 
 1.upto 100 do |i|
