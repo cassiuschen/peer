@@ -4,6 +4,13 @@
   <% else %>
     <%= link_to "加入收藏", like_post_path(@post), class: "btn btn-primary pull-right" %>
   <% end -%>
+  <% if is_admin? %>
+    <% if @post.is_top? %>
+      <%= link_to "取消置顶", untop_post_path(@post), class: "btn btn-default pull-right", style: "margin-right:10px" %>
+    <% else %>
+      <%= link_to "置顶", top_post_path(@post), class: "btn btn-primary pull-right", style: "margin-right:10px" %>
+    <% end -%>
+  <% end -%>
   <h1 class="text-center"><%= @post.title %></h1>
   <div class="text-right">
     <b><%= link_to @post.author_name, root_path(search: @post.author_name), style: "color: inherit;" %></b><br>
@@ -109,7 +116,7 @@
 <% end -%>
 
 <div id="comments">
-  <h3><%= pluralize(@post.comments.length, "reply") %> / 
+  <h3><%= pluralize(@post.comments.length, "reply") %> /
     <%= @post.comments.length %> 回复: </h3>
   <% @comments.each do |comment| %>
     <hr class="m0">

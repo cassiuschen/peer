@@ -45,6 +45,14 @@ class Post
     self.update_attributes(deleted_at: Time.now)
   end
 
+  def top
+    self.update_attributes(is_top: true)
+  end
+
+  def untop
+    self.update_attributes(is_top: false)
+  end
+
   def update_author
     set(author_name: author.name)
     set(author_department: author.department)

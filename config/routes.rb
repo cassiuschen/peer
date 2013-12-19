@@ -6,8 +6,14 @@ Peer::Application.routes.draw do
       get "unscore", to: "posts#unscore", as: :unscore
       get "like", to: "posts#like", as: :like
       get "unlike", to: "posts#unlike", as: :unlike
+      get "top", to: "posts#top", as: :top
+      get "untop", to: "posts#untop", as: :untop
     end
   end
+
+  get "/setting", to: "posts#setting", as: :setting
+  get "/setting/:key/:value", to: "posts#save_setting", as: :save_setting
+
   get "/my", to: "posts#my", as: :my_posts
   get "/scored", to: "posts#scored", as: :scored_posts
   get "/favorite", to: "posts#favorite", as: :favorite_posts
@@ -56,7 +62,7 @@ Peer::Application.routes.draw do
   #       get 'recent', on: :collection
   #     end
   #   end
-  
+
   # Example resource route with concerns:
   #   concern :toggleable do
   #     post 'toggle'

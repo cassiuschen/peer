@@ -1,0 +1,16 @@
+<h1>系统配置 / Setting</h1>
+<br>
+<div style="margin-bottom: 10px;">
+  <% if is_post_show? %>
+    <%= link_to '隐藏 Posts', save_setting_path('post_show', 'no'), class: "btn btn-default" %> 已显示
+  <% else %>
+    <%= link_to '显示 Posts', save_setting_path('post_show', 'yes'), class: "btn btn-primary" %> 已隐藏
+  <% end %>
+</div>
+<div style="margin-bottom: 10px;">
+  <% if is_post_submit? %>
+    <%= link_to '关闭提交 Posts', save_setting_path('post_submit', 'no'), class: "btn btn-default" %> 已开启
+  <% else %>
+    <%= link_to '开启提交 Posts', save_setting_path('post_submit', 'yes'), class: "btn btn-primary" %> 已关闭
+  <% end %>
+</div>
