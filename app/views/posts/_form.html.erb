@@ -15,7 +15,6 @@
     <%= f.text_field :title, class: "form-control input-lg", placeholder: "标题 / Title" %>
   </div>
   <%= f.text_area :body, class: "form-control wysihtml5", rows: 30 %>
-
   <% content_for :script do %>
   <script type="text/javascript">
     $(document).ready(function(){
@@ -29,5 +28,10 @@
 
   <div style="margin-top: 10px;">
     <%= f.submit class: "btn btn-primary" %>
+    <% if is_admin? %>
+    <label>
+      <%= f.check_box :is_top, {}, true, false %> 置顶
+    </label>
+    <% end %>
   </div>
 <% end %>

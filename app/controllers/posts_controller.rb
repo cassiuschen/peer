@@ -8,7 +8,7 @@ class PostsController < ApplicationController
       pattern = params[:search].split(/\s/).reject(&:empty?).map{|s| /#{Regexp.escape(s)}/i }
       @posts = Post.or({ :title.all => pattern }, { :author_name.all => pattern }, { :body.all => pattern }, { :author_department.all => pattern }).desc(@order).page params[:page]
     else
-      @posts = Post.desc(@order).page params[:page]
+      @posts = Post.desc(@is_top, @order).page params[:page]
     end
   end
 
@@ -153,6 +153,8 @@ class PostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def post_params
-      params.require(:post).permit(:title, :body)
+      permitted = params.require(:post).permit(:title, :body, :is_top)
+      permitted[:is_top] = permitted[:is_top] ? true : false
+      return permitted
     end
 end
