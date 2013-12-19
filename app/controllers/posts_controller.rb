@@ -25,7 +25,7 @@ class PostsController < ApplicationController
     render "index"
   end
 
-  # GET /scored
+  # GET /favorite
   def favorite
     @posts = current_user.favorite_posts.desc(@order).page params[:page]
     render "index"

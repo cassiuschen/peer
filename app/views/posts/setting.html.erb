@@ -14,3 +14,10 @@
     <%= link_to '开启提交 Posts', save_setting_path('post_submit', 'yes'), class: "btn btn-primary" %> 已关闭
   <% end %>
 </div>
+<div style="margin-bottom: 10px;">
+  <% if is_scores? %>
+    <%= link_to '关闭评分', save_setting_path('scores', 'no'), class: "btn btn-default" %> 已开启
+  <% else %>
+    <%= link_to '开启评分', save_setting_path('scores', 'yes'), class: "btn btn-primary" %> 已关闭
+  <% end %>
+</div>

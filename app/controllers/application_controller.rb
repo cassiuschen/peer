@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   # CAS
   before_filter CASClient::Frameworks::Rails::Filter, :get_cas_user
-  helper_method :current_user, :is_admin?, :is_post_show?, :is_post_submit?
+  helper_method :current_user, :is_admin?, :is_teacher?, :is_post_show?, :is_post_submit?, :is_scores?
 
   def get_cas_user
     begin
@@ -23,6 +23,10 @@ class ApplicationController < ActionController::Base
     @current_user.is_admin
   end
 
+  def is_teacher?
+    @current_user.is_teacher
+  end
+
   def is_post_show?
     setting = Setting.where(key: 'post_show').first
     return (setting && setting.value == 'yes') ? true : false
@@ -30,6 +34,11 @@ class ApplicationController < ActionController::Base
 
   def is_post_submit?
     setting = Setting.where(key: 'post_submit').first
+    return (setting && setting.value == 'yes') ? true : false
+  end
+
+  def is_scores?
+    setting = Setting.where(key: 'scores').first
     return (setting && setting.value == 'yes') ? true : false
   end
 
