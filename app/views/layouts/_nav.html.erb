@@ -1,0 +1,27 @@
+<ul class="nav navbar-nav navbar-right">
+  <li <%= raw 'class="active"' if request.path == root_path %>>
+          <%= link_to "所有", root_path %>
+        </li>
+        <li <%= raw 'class="active"' if request.path == my_posts_path %>>
+          <%= link_to "我的", my_posts_path %>
+        </li>
+        <li <%= raw 'class="active"' if request.path == scored_posts_path %>>
+          <%= link_to "已评", scored_posts_path %>
+        </li>
+        <li <%= raw 'class="active"' if request.path == favorite_posts_path %>>
+          <%= link_to "收藏", favorite_posts_path %>
+        </li>
+        <% if current_user.is_create_post? && is_post_submit? %>
+          <li <%= raw 'class="active"' if request.path == new_post_path %>>
+            <%= link_to '新建', new_post_path %>
+          </li>
+        <% end -%>
+        <% if is_admin? %>
+          <li <%= raw 'class="active"' if request.path == setting_path %>>
+            <%= link_to '系统配置', setting_path %>
+          </li>
+        <% end %>
+        <li>
+          <%= link_to "登出", logout_path %>
+        </li>
+      </ul>

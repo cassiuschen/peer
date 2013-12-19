@@ -16,6 +16,7 @@ class Post
   field :scores_count, type: Integer, default: 0
   field :teacher_score, type: Float, default: 0.0
   field :teacher_scores_count, type: Integer, default: 0
+  field :is_top, type: Boolean, default: false # 是否置顶
 
   has_many :comments, dependent: :delete
   has_many :scores, dependent: :delete
@@ -42,6 +43,14 @@ class Post
 
   def hide
     self.update_attributes(deleted_at: Time.now)
+  end
+
+  def top
+    self.update_attributes(is_top: true)
+  end
+
+  def untop
+    self.update_attributes(is_top: false)
   end
 
   def update_author

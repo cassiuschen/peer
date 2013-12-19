@@ -1,7 +1,9 @@
 source 'http://ruby.taobao.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails'
+gem 'slim'
+gem 'slim-rails'
 
 # Use LESS for stylesheets
 gem 'less-rails'
@@ -34,7 +36,6 @@ gem 'turbolinks'
 # gem 'jbuilder', '~> 1.2'
 
 gem 'mongoid', github: "mongoid/mongoid"
-gem 'thin'
 gem 'rubycas-client', ">=2.3.10.rc1"
 
 gem 'kaminari'

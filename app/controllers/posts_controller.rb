@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :comment, :score, :unscore, :like, :unlike]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :comment, :score, :unscore, :like, :unlike, :top, :untop]
   before_action :set_order, only: [:index, :my, :scored]
 
   # GET /
@@ -8,7 +8,7 @@ class PostsController < ApplicationController
       pattern = params[:search].split(/\s/).reject(&:empty?).map{|s| /#{Regexp.escape(s)}/i }
       @posts = Post.or({ :title.all => pattern }, { :author_name.all => pattern }, { :body.all => pattern }, { :author_department.all => pattern }).desc(@order).page params[:page]
     else
-      @posts = Post.desc(@order).page params[:page]
+      @posts = Post.desc(@is_top, @order).page params[:page]
     end
   end
 
@@ -25,7 +25,7 @@ class PostsController < ApplicationController
     render "index"
   end
 
-  # GET /scored
+  # GET /favorite
   def favorite
     @posts = current_user.favorite_posts.desc(@order).page params[:page]
     render "index"
@@ -41,7 +41,11 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    @post = Post.new
+    if current_user.is_create_post? && is_post_submit?
+      @post = Post.new
+    else
+      redirect_to :back, alert: { danger: "新建时发生了一个错误，我们将在或长或短的时间里修复这个问题!" }
+    end
   end
 
   # GET /posts/1/edit
@@ -50,20 +54,24 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    @post = Post.new(post_params)
-    @post.author = current_user
+    if current_user.is_create_post? && is_post_submit?
+      @post = Post.new(post_params)
+      @post.author = current_user
 
-    if @post.save
-      redirect_to @post, notice: 'Post was successfully created.'
+      if @post.save
+        redirect_to @post, notice: '文章成功发布!'
+      else
+        render action: 'new'
+      end
     else
-      render action: 'new'
+      redirect_to :back, alert: { danger: "新建时发生了一个错误，我们将在或长或短的时间里修复这个问题!" }
     end
   end
 
   # PATCH/PUT /posts/1
   def update
     if @post.update(post_params)
-      redirect_to @post, notice: 'Post was successfully updated.'
+      redirect_to @post, notice: '文章成功发布!'
     else
       render action: 'edit'
     end
@@ -123,6 +131,18 @@ class PostsController < ApplicationController
     redirect_to :back
   end
 
+  # GET /posts/1/top
+  def top
+    @post.top
+    redirect_to :back
+  end
+
+  # GET /posts/1/untop
+  def untop
+    @post.untop
+    redirect_to :back
+  end
+
   # DELETE /comments/2
   def destroy_comment
     @comment = Comment.find(params[:comment_id])
@@ -132,6 +152,24 @@ class PostsController < ApplicationController
     else
       redirect_to @post, alert: { danger: "Delete error!" }
     end
+  end
+
+  # GET /setting
+  def setting
+  end
+
+  # GET /setting/
+  def save_setting
+    key = params[:key]
+    value = params[:value]
+
+    setting = Setting.where(key: key).first
+    if setting
+      setting.set_value(value)
+    else
+      Setting.create!(key: key, value: value)
+    end
+    redirect_to :back
   end
 
   private
@@ -153,6 +191,8 @@ class PostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def post_params
-      params.require(:post).permit(:title, :body)
+      permitted = params.require(:post).permit(:title, :body, :is_top)
+      permitted[:is_top] = permitted[:is_top] ? true : false
+      return permitted
     end
 end

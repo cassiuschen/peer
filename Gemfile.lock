@@ -1,11 +1,11 @@
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: b91705b0ded88ed82aedbf0acf17f0a3cf1af471
+  revision: af0233d832e73e66ba2f6efc85bbde68076536b1
   specs:
-    mongoid (4.0.0)
+    mongoid (4.0.0.alpha1)
       activemodel (~> 4.0.0)
-      moped (~> 2.0.beta3)
-      origin (~> 1.0)
+      moped (~> 2.0.beta4)
+      origin (~> 2.0)
       tzinfo (~> 0.3.37)
 
 GEM
@@ -48,7 +48,7 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-wysihtml5-rails (0.3.1.23)
       railties (>= 3.0)
-    bson (2.0.0.rc3)
+    bson (2.0.0)
     builder (3.1.4)
     callsite (0.0.11)
     cancan (1.6.10)
@@ -61,10 +61,9 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     commonjs (0.2.7)
-    daemons (1.1.9)
+    connection_pool (1.2.0)
     debug_inspector (0.0.2)
     erubis (2.7.0)
-    eventmachine (1.0.3)
     execjs (2.0.2)
     hike (1.2.3)
     htmlentities (4.3.1)
@@ -94,14 +93,15 @@ GEM
     mime-types (1.25)
     mini_portile (0.5.2)
     minitest (4.7.5)
-    moped (2.0.0.beta3)
-      bson (~> 2.0.0.rc3)
-      optionable (~> 0.1.1)
+    moped (2.0.0.beta4)
+      bson (~> 2.0)
+      connection_pool (~> 1.2)
+      optionable (~> 0.2.0)
     multi_json (1.8.2)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
-    optionable (0.1.1)
-    origin (1.1.0)
+    optionable (0.2.0)
+    origin (2.0.0)
     polyglot (0.3.3)
     pry (0.9.12.3)
       coderay (~> 1.0)
@@ -144,6 +144,14 @@ GEM
     rubyzip (1.0.0)
     sanitize (2.0.6)
       nokogiri (>= 1.4.4)
+    slim (2.0.2)
+      temple (~> 0.6.6)
+      tilt (>= 1.3.3, < 2.1)
+    slim-rails (2.0.4)
+      actionpack (>= 3.0, < 4.1)
+      activesupport (>= 3.0, < 4.1)
+      railties (>= 3.0, < 4.1)
+      slim (~> 2.0)
     slop (3.4.6)
     spreadsheet (0.9.1)
       ruby-ole (>= 1.0)
@@ -156,13 +164,10 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    temple (0.6.7)
     therubyracer (0.12.0)
       libv8 (~> 3.16.14.0)
       ref
-    thin (1.6.1)
-      daemons (>= 1.0.9)
-      eventmachine (>= 1.0.0)
-      rack (>= 1.0.0)
     thor (0.18.1)
     thread_safe (0.1.3)
       atomic
@@ -199,12 +204,13 @@ DEPENDENCIES
   pry-rails
   quiet_assets
   rack-mini-profiler
-  rails (= 4.0.0)
+  rails
   roo
   rubycas-client (>= 2.3.10.rc1)
   sanitize
+  slim
+  slim-rails
   therubyracer
-  thin
   turbolinks
   uglifier (>= 1.3.0)
   unicorn
