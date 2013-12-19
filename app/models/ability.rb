@@ -9,7 +9,6 @@ class Ability
         can :manage, :all
       else
         can :read, :all
-        can :manage, :all
         can :my, Post
         can :scored, Post
         can :favorite, Post

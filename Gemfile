@@ -8,8 +8,6 @@ gem 'slim-rails'
 # Use LESS for stylesheets
 gem 'less-rails'
 
-gem 'sass'
-
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0' 
 
@@ -21,8 +19,6 @@ gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-gem 'nprogress-rails'
-gem 'sass-rails'
 
 group :development do
   gem 'rack-mini-profiler'
@@ -53,7 +49,7 @@ gem 'sanitize'
 gem 'bootstrap-wysihtml5-rails'
 
 # Use unicorn as the app server
-gem 'puma'
+gem 'unicorn'
 gem 'roo'
 gem 'axlsx'
 # Use Capistrano for deployment

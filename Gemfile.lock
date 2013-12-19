@@ -75,6 +75,7 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    kgio (2.8.1)
     less (2.4.0)
       commonjs (~> 0.2.7)
     less-rails (2.4.2)
@@ -99,7 +100,6 @@ GEM
     multi_json (1.8.2)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
-    nprogress-rails (0.1.2.3)
     optionable (0.2.0)
     origin (2.0.0)
     polyglot (0.3.3)
@@ -109,8 +109,6 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
-    puma (2.7.1)
-      rack (>= 1.1, < 2.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -133,6 +131,7 @@ GEM
       activesupport (= 4.0.0)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
+    raindrops (0.12.0)
     rake (10.1.0)
     ref (1.0.5)
     roo (1.12.2)
@@ -145,11 +144,6 @@ GEM
     rubyzip (1.0.0)
     sanitize (2.0.6)
       nokogiri (>= 1.4.4)
-    sass (3.2.12)
-    sass-rails (4.0.1)
-      railties (>= 4.0.0, < 5.0)
-      sass (>= 3.1.10)
-      sprockets-rails (~> 2.0.0)
     slim (2.0.2)
       temple (~> 0.6.6)
       tilt (>= 1.3.3, < 2.1)
@@ -187,6 +181,10 @@ GEM
     uglifier (2.3.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unicorn (4.7.0)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
 
 PLATFORMS
   ruby
@@ -203,19 +201,16 @@ DEPENDENCIES
   less-rails
   meta_request
   mongoid!
-  nprogress-rails
   pry-rails
-  puma
   quiet_assets
   rack-mini-profiler
   rails
   roo
   rubycas-client (>= 2.3.10.rc1)
   sanitize
-  sass
-  sass-rails
   slim
   slim-rails
   therubyracer
   turbolinks
   uglifier (>= 1.3.0)
+  unicorn

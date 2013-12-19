@@ -41,11 +41,11 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    #if current_user.is_create_post? && is_post_submit?
+    if current_user.is_create_post? && is_post_submit?
       @post = Post.new
-    #else
-    #  redirect_to :back, alert: { danger: "新建时发生了一个错误，我们将在或长或短的时间里修复这个问题!" }
-    #end
+    else
+      redirect_to :back, alert: { danger: "新建时发生了一个错误，我们将在或长或短的时间里修复这个问题!" }
+    end
   end
 
   # GET /posts/1/edit
@@ -54,7 +54,7 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    #if current_user.is_create_post? && is_post_submit?
+    if current_user.is_create_post? && is_post_submit?
       @post = Post.new(post_params)
       @post.author = current_user
 
@@ -63,9 +63,9 @@ class PostsController < ApplicationController
       else
         render action: 'new'
       end
-    #else
-    #  redirect_to :back, alert: { danger: "新建时发生了一个错误，我们将在或长或短的时间里修复这个问题!" }
-    #end
+    else
+      redirect_to :back, alert: { danger: "新建时发生了一个错误，我们将在或长或短的时间里修复这个问题!" }
+    end
   end
 
   # PATCH/PUT /posts/1

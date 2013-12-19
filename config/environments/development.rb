@@ -28,6 +28,5 @@ end
 
 # RubyCAS-client
 CASClient::Frameworks::Rails::Filter.configure(
-  :cas_base_url => "http://bdfz-cas.pkuschool.edu.cn:80/cas/",
-  :validate_url => "http://bdfz-cas.pkuschool.edu.cn:80/cas/serviceValidate"
+  :cas_base_url => "http://127.0.0.1:8888/"
 )
