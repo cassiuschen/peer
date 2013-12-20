@@ -24,7 +24,12 @@ class User
   end
 
   def can_score?(post)
-    !is_teacher? && self != post.author && self[:department].split('/').first == post.author[:department].split('/').first && !self.scores.where(post: post).exists? && post.scores.count < 3
+    if self[:department]
+      is_college = (self[:department].split('/').first == post.author[:department].split('/').first)
+    else
+      is_college = true
+    end
+    !is_teacher? && self != post.author && is_college && !self.scores.where(post: post).exists? && self.scores.count < 3 && post.scores.count < 3
   end
 
   def teacher_can_score?(post)
@@ -40,11 +45,15 @@ class User
   end
 
   def is_create_post?
-    self.posts.count < 1
+    !is_teacher? && self.posts.count < 1
   end
 
   def is_scores?
-    self.scores.count < 3
+    !is_teacher? && self.scores.count < 3
+  end
+
+  def is_scores20?
+    !is_teacher? && self.scores.where(point: 20).count < 1
   end
 
   def who?

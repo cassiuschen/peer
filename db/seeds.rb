@@ -19,11 +19,11 @@ body = %{
 请假扣分制度仅仅是学生们不满意的众多地方之一，还有许多地方（比如游学请假扣分、活动室管理）都可以讨论。这次讨论可谓“声势浩大”，希望学校的领导和老师（银杏时报上好像主要只有孙玉磊老师在回应，不知道其他的老师们是否能了解）能够认真地考虑学生们的意见，做出合适的回应。我们希望看到学校确实能听到学生们的声音，而不是忽悠我们评论一番，走个形式，最后却毫不改变。
 }
 
-user = User.create!(no: "test")
+user = User.create!(no: "test", department: "行知学院/09级")
 admin = User.create!(no: "admin", is_admin: true)
 
 1.upto 100 do |i|
-  user = User.create!(no: "test#{i}")
+  user = User.create!(no: "test#{i}", department: "行知学院/09级")
   Post.create!(title: "请假扣分制度的讨论 part 1 - #{i}", body: body, author: user)
   Post.create!(title: "请假扣分制度的讨论 part 2 - #{i}", body: body, author: user)
   Post.create!(title: "请假扣分制度的讨论 part 3 - #{i}", body: body, author: user)
