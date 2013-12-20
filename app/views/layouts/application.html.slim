@@ -6,59 +6,60 @@ head
   title Peer
   = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
   <!--[if lt IE 9]>
-    <%= javascript_include_tag "ie" %>
+    = javascript_include_tag "ie"
   <![endif]-->
   = csrf_meta_tags
+  = javascript_include_tag "application", "data-turbolinks-track" => true
 
-body
-  header.navbar.navbar-inverse.navbar-fixed-top
-    .container
-      .navbar-header
-        button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav"
-          span.sr-only 
-            | Toggle navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        a.navbar-brand href="/" Peer
-      .bs.collapse.navbar-collapse id="nav"
-        form action="/" class="navbar-form navbar-left" role="search"
-          .form-group
-            input name="search" type="search" placeholder="搜索 / Search" class="form-control" value = params[:search]
-        = render 'layouts/nav' 
-      
+  body
+    header.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav"
+            span.sr-only 
+              | Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          = link_to "Peer", root_path, :class => "navbar-brand" 
+        .bs.collapse.navbar-collapse id="nav"
+          form action="/" class="navbar-form navbar-left" role="search"
+            .form-group
+              input name="search" type="search" placeholder="搜索 / Search" class="form-control" value = params[:search]
+          = render 'layouts/nav' 
+          
 
-  - alert && alert.each do |k, v|
-      div class="alert alert-#{k}" style="text-align: center; heigh:20px; padding:8px;"
-        = v
-  .container id="body"
+    - alert && alert.each do |k, v|
+        div class="alert alert-#{k}" style="text-align: center; heigh:20px; padding:8px;"
+          = v
+    .container id="body"  
+
+        
+
+      == yield  
+
+      .footer.text-center
+        a.text-muted href="http://seiue.com" target="_blank"
+          | &copy; Seiue 2013  
 
     
+    == yield :script  
 
-    == yield
-
-    .footer.text-center
-      a.text-muted href="http://seiue.com" target="_blank"
-        | &copy; Seiue 2013
-
-  = javascript_include_tag "application", "data-turbolinks-track" => true
-  == yield :script
-
-  - unless current_user.has_signed_in
-    - current_user.set(has_signed_in: true)
-    .tour-bg
-    #tour
-      .popover-content
-        .popover-wraper
-          h3 欢迎大家登陆晨会作业平台，在本平台中大家需要完成三件事：
-          p 一、发布一篇作业，主题应围绕北大附中考勤制度
-          p
-            = image_tag "1.png"
-          p 二、在平台内观看其他作者的文章，并进行评论与交流
-          p 
-            = image_tag "2.png"
-          p 三、每人均选择至少5篇文章进行打分，打分需从四个方面进行.
-          p
-            = image_tag "3.png"
-          button.btn.btn-primary.pull-right onclick="$('#tour, .tour-bg').fadeOut()" style="margin-right: 30px;"
-            | 我知道了
+    - unless current_user.has_signed_in
+      - current_user.set(has_signed_in: true)
+      .tour-bg
+      #tour
+        .popover-content
+          .popover-wraper
+            h3 欢迎大家登陆晨会作业平台，在本平台中大家需要完成三件事：
+            p 一、发布一篇作业，主题应围绕北大附中考勤制度
+            p
+              = image_tag "1.png"
+            p 二、在平台内观看其他作者的文章，并进行评论与交流
+            p 
+              = image_tag "2.png"
+            p 三、每人均选择至少5篇文章进行打分，打分需从四个方面进行.
+            p
+              = image_tag "3.png"
+            button.btn.btn-primary.pull-right onclick="$('#tour, .tour-bg').fadeOut()" style="margin-right: 30px;"
+              | 我知道了

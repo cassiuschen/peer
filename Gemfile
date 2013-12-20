@@ -7,6 +7,10 @@ gem 'slim-rails'
 
 # Use LESS for stylesheets
 gem 'less-rails'
+<<<<<<< HEAD
+=======
+gem 'sass'
+>>>>>>> release/ver.0.2.2
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0' 

@@ -41,10 +41,17 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
+<<<<<<< HEAD
     if current_user.is_create_post? && is_post_submit?
       @post = Post.new
     else
       redirect_to :back, alert: { danger: "新建时发生了一个错误，我们将在或长或短的时间里修复这个问题!" }
+=======
+    if current_user.can_create_post? && is_post_submit?
+      @post = Post.new
+    else
+      redirect_to :back, alert: { danger: "New error!" }
+>>>>>>> release/ver.0.2.2
     end
   end
 
@@ -54,24 +61,32 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
+<<<<<<< HEAD
     if current_user.is_create_post? && is_post_submit?
+=======
+    if current_user.can_create_post? && is_post_submit?
+>>>>>>> release/ver.0.2.2
       @post = Post.new(post_params)
       @post.author = current_user
 
       if @post.save
-        redirect_to @post, notice: '文章成功发布!'
+        redirect_to @post, notice: 'Post was successfully created.'
       else
         render action: 'new'
       end
     else
+<<<<<<< HEAD
       redirect_to :back, alert: { danger: "新建时发生了一个错误，我们将在或长或短的时间里修复这个问题!" }
+=======
+      redirect_to :back, alert: { danger: "New error!" }
+>>>>>>> release/ver.0.2.2
     end
   end
 
   # PATCH/PUT /posts/1
   def update
     if @post.update(post_params)
-      redirect_to @post, notice: '文章成功发布!'
+      redirect_to @post, notice: 'Post was successfully updated.'
     else
       render action: 'edit'
     end
