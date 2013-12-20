@@ -116,6 +116,9 @@
 
   <% if can_score || teacher_can_score %>
     <%= form_for "score", url: score_post_path(@post), html: { style: "display: none;" } do |f| %>
+      <% if !current_user.is_scores20? %>
+      <input type="hidden" id="is_scores20" value="no">
+      <% end %>
       <%= f.hidden_field "point1", data: { toggle: "rate" } %>
       <%= f.hidden_field "point2", data: { toggle: "rate" } %>
       <%= f.hidden_field "point3", data: { toggle: "rate" } %>
@@ -189,6 +192,11 @@
     };
 
     if (score == 20) {
+      if ($('#is_scores20').size()) {
+        alert("你已经评过满分了，不能在评满分。");
+        return false
+      }
+
       if (!confirm("满分只能给一次，你是否要继续提交?")) {
         return false;
       }
