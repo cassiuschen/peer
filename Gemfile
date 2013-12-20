@@ -8,6 +8,8 @@ gem 'slim-rails'
 # Use LESS for stylesheets
 gem 'less-rails'
 gem 'sass'
+gem 'sass-rails'
+gem 'nprogress-rails'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0' 

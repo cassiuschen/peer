@@ -11,11 +11,7 @@
         <li <%= raw 'class="active"' if request.path == favorite_posts_path %>>
           <%= link_to "收藏", favorite_posts_path %>
         </li>
-<<<<<<< HEAD
-        <% if current_user.is_create_post? && is_post_submit? %>
-=======
         <% if current_user.can_create_post? && is_post_submit? %>
->>>>>>> release/ver.0.2.2
           <li <%= raw 'class="active"' if request.path == new_post_path %>>
             <%= link_to '新建', new_post_path %>
           </li>
@@ -24,11 +20,7 @@
           <li <%= raw 'class="active"' if request.path == setting_path %>>
             <%= link_to '系统配置', setting_path %>
           </li>
-<<<<<<< HEAD
-        <% end %>
-=======
         <% end -%>
->>>>>>> release/ver.0.2.2
         <li>
           <%= link_to "登出", logout_path %>
         </li>
