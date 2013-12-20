@@ -28,3 +28,13 @@ $('[data-toggle="raty"]:not([disabled])').on 'mouseenter', '.rate', (e) ->
   $parent.attr("data-score", score)
   $($parent.attr("data-input")).val(score).change()
   return false;
+
+# For Task Segment
+#$task = $("#task")
+#i = $task.scrollTop()
+#j = 30#
+
+#$task.css(
+#    opacity : (j - i * 2) / j
+#    bottom: -i
+#)

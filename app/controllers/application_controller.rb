@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  $task = "Testing....."
+
   def current_user
     @current_user
   end

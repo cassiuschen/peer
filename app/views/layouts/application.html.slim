@@ -1,15 +1,15 @@
 DOCTYPE html
 html lang="zh-CN"
-head
-  meta charset="utf-8"
-  meta name="viewport" content="width=device-width, initial-scale=1.0"
-  title Peer
-  = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
-  <!--[if lt IE 9]>
-    = javascript_include_tag "ie"
-  <![endif]-->
-  = csrf_meta_tags
-  = javascript_include_tag "application", "data-turbolinks-track" => true
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    title Peer
+    = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
+    <!--[if lt IE 9]>
+      = javascript_include_tag "ie"
+    <![endif]-->
+    = csrf_meta_tags
+    = javascript_include_tag "application", "data-turbolinks-track" => true
 
   body
     header.navbar.navbar-inverse.navbar-fixed-top
@@ -38,10 +38,13 @@ head
 
       == yield  
 
+
+
       .footer.text-center
         a.text-muted href="http://seiue.com" target="_blank"
           | &copy; Seiue 2013  
 
+    = render 'layouts/tasks'
     
     == yield :script  
 

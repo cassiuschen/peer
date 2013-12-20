@@ -10,6 +10,7 @@
 # = require bootstrap-wysihtml5/locales/zh-CN
 # = require nprogress
 # = require nprogress-turbolinks
+# = require task
 
 
 

@@ -1,3 +1,16 @@
 $nprogress-color: #B5D5E0;
 @import 'nprogress';
 @import 'nprogress-bootstrap';
+
+.shadow:before {
+	position:absolute;
+	z-index:99;
+	content:'';
+	left:50%;
+	margin-left:-650px;
+	top:-18px;
+	height:19px;
+	width:1300px;
+	opacity: .9;
+	background: transparent asset-url("shadow.png") no-repeat center top;
+}
