@@ -9,6 +9,7 @@ head
     <%= javascript_include_tag "ie" %>
   <![endif]-->
   = csrf_meta_tags
+  = javascript_include_tag "application", "data-turbolinks-track" => true
 
 body
   header.navbar.navbar-inverse.navbar-fixed-top
@@ -41,7 +42,7 @@ body
       a.text-muted href="http://seiue.com" target="_blank"
         | &copy; Seiue 2013
 
-  = javascript_include_tag "application", "data-turbolinks-track" => true
+  
   == yield :script
 
   - unless current_user.has_signed_in
