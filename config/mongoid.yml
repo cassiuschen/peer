@@ -78,7 +78,7 @@ test:
 production:
   sessions:
     default:
-      database: peer_production
+      database: peer_development
       hosts:
         - localhost:27017
       options:
