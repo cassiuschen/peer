@@ -12,6 +12,7 @@ class Ability
         can :my, Post
         can :scored, Post
         can :favorite, Post
+        can :manage, :all
         can :comment, Post
         can :score, Post
         can :create, Post
