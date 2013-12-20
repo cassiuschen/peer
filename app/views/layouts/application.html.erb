@@ -30,7 +30,7 @@
         <li <%= raw 'class="active"' if request.path == favorite_posts_path %>>
           <%= link_to "收藏", favorite_posts_path %>
         </li>
-        <% if current_user.is_create_post? && is_post_submit? %>
+        <% if current_user.can_create_post? && is_post_submit? %>
           <li <%= raw 'class="active"' if request.path == new_post_path %>>
             <%= link_to '新建', new_post_path %>
           </li>
