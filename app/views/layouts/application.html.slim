@@ -44,7 +44,8 @@ html lang="zh-CN"
         a.text-muted href="http://seiue.com" target="_blank"
           | &copy; Seiue 2013  
 
-    = render 'layouts/tasks'
+    - if request.path == root_path
+      = render 'layouts/tasks'
     
     == yield :script  
 

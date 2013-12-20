@@ -156,12 +156,13 @@ class PostsController < ApplicationController
 
   # GET /setting
   def setting
+    @work = Work.new
   end
 
   # GET /setting/
   def save_setting
     key = params[:key]
-    value = params[:value]
+    value = params[:value]post_s
 
     setting = Setting.where(key: key).first
     if setting

@@ -15,7 +15,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  $task = "Testing....."
+  $work = "请在这里输入任务内容，以及任务描述等。"
+  $work_start_at = "2013.12.23"
 
   def current_user
     @current_user

@@ -16,11 +16,11 @@
             <%= link_to '新建', new_post_path %>
           </li>
         <% end -%>
-        <% if is_admin? %>
+        <!-- if is_admin? %-->
           <li <%= raw 'class="active"' if request.path == setting_path %>>
             <%= link_to '系统配置', setting_path %>
           </li>
-        <% end -%>
+        <!-- end -%-->
         <li>
           <%= link_to "登出", logout_path %>
         </li>
