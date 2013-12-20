@@ -39,7 +39,7 @@ class User
     is_teacher
   end
 
-  def is_create_post?
+  def can_create_post?
     self.posts.count < 1
   end
 

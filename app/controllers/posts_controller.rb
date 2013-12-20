@@ -41,7 +41,7 @@ class PostsController < ApplicationController
 
   # GET /posts/new
   def new
-    if current_user.is_create_post? && is_post_submit?
+    if current_user.can_create_post? && is_post_submit?
       @post = Post.new
     else
       redirect_to :back, alert: { danger: "New error!" }
@@ -54,7 +54,7 @@ class PostsController < ApplicationController
 
   # POST /posts
   def create
-    if current_user.is_create_post? && is_post_submit?
+    if current_user.can_create_post? && is_post_submit?
       @post = Post.new(post_params)
       @post.author = current_user
 
